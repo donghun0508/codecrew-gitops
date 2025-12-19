@@ -34,8 +34,8 @@ spec:
           path: values/{{path.basename}}
           directory:
             recurse: true
-            include: "{configmap.yaml,sealedsecret.yaml}"
-            exclude: "{prod.yaml,secret.yaml}"
+            include: "{configmap.yaml,sealedsecret.yaml,ghcr-sealedsecret.yaml}"
+            exclude: "{prod.yaml,secret.yaml,kustomization.yaml}"
 
       syncPolicy:
         automated:
