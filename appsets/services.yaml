@@ -15,13 +15,28 @@ spec:
       name: "{{path.basename}}"
     spec:
       project: default
-      source:
-        repoURL: https://github.com/donghun0508/codecrew-gitops
-        targetRevision: main
-        path: values/{{path.basename}}
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{path.basename}}"
+
+      sources:
+        - repoURL: https://github.com/donghun0508/codecrew-gitops
+          targetRevision: main
+          path: charts/service-helm
+          helm:
+            releaseName: "{{path.basename}}"
+            valueFiles:
+              - $values/values/{{path.basename}}/prod.yaml
+
+        - repoURL: https://github.com/donghun0508/codecrew-gitops
+          targetRevision: main
+          ref: values
+          path: values/{{path.basename}}
+          directory:
+            recurse: true
+            include: "{configmap.yaml,sealedsecret.yaml}"
+            exclude: "{prod.yaml,secret.yaml}"
+
       syncPolicy:
         automated:
           prune: true
