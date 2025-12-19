@@ -35,7 +35,7 @@ spec:
           directory:
             recurse: true
             include: "{configmap.yaml,sealedsecret.yaml}"
-            exclude: "{prod.yaml,secret.yaml,kustomization.yaml}"
+            exclude: "{prod.yaml,secret.yaml}"
 
       syncPolicy:
         automated:
