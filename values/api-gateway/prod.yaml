@@ -19,7 +19,7 @@ service:
 
 ingress:
   enabled: true
-  className: nginx
+  className: traefik
   host: api.codecrew.site
   path: /
   annotations: {}

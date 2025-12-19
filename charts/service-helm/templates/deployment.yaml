@@ -25,17 +25,13 @@ spec:
           image: "{{ required "image.repository is required" .Values.image.repository }}:{{ required "image.tag is required" .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-          {{- if or ((.Values.configmap | default dict).enabled) ((.Values.sealedSecret | default dict).enabled) }}
           envFrom:
-            {{- if (.Values.configmap | default dict).enabled }}
             - configMapRef:
                 name: {{ include "service-helm.fullname" . }}
-            {{- end }}
-            {{- if (.Values.sealedSecret | default dict).enabled }}
+                optional: true
             - secretRef:
                 name: {{ include "service-helm.fullname" . }}
-            {{- end }}
-          {{- end }}
+                optional: true
 
           ports:
             - name: http
