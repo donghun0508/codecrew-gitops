@@ -1,0 +1,20 @@
+{{- if (.Values.monitoring | default dict).enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "service-helm.fullname" . }}
+  namespace: {{ required "monitoring.namespace is required when monitoring.enabled=true" .Values.monitoring.namespace }}
+  labels:
+    {{- toYaml (.Values.monitoring.labels | default dict) | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "service-helm.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+    - port: { { .Values.monitoring.portName | default "http" } }
+      path: { { .Values.monitoring.path | default "/actuator/prometheus" } }
+      interval: { { .Values.monitoring.interval | default "15s" } }
+  {{- end }}

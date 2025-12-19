@@ -1,0 +1,47 @@
+fullnameOverride: api-gateway
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/donghun0508/api-gateway
+  tag: "9245b9fa2a8a8ab5389fa76daf61799a33d8c4a6"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: ghcr-secret
+
+containerPort: 8080
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: http
+
+ingress:
+  enabled: true
+  className: nginx
+  host: api.codecrew.site
+  path: /
+  annotations: {}
+  tls: []
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: prod
+
+monitoring:
+  enabled: true
+  namespace: monitoring
+  labels:
+    release: kube-prometheus
+  path: /actuator/prometheus
+  interval: 15s
+  portName: http

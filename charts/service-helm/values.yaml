@@ -1,0 +1,46 @@
+replicaCount: 2
+
+image:
+  repository: ""   # values/<service>/prod.yaml 에서 필수로 채움
+  tag: ""          # CI가 values/<service>/prod.yaml 에서 갱신
+  pullPolicy: IfNotPresent
+
+containerPort: 8080
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: http
+
+resources: {}
+
+env: []
+
+fullnameOverride: ""   # 기본은 Release.Name 사용(서비스명 = 릴리즈명)
+
+ingress:
+  enabled: false
+  className: ""          # 예: nginx
+  host: ""               # 예: api.example.com
+  path: /
+  annotations: {}
+  tls: []                # 예: [{ hosts: ["api.example.com"], secretName: "api-tls" }]
+
+monitoring:
+  enabled: false
+  namespace: monitoring
+  labels:
+    release: kube-prometheus
+  path: /actuator/prometheus
+  interval: 15s
+  portName: http
+
+imagePullSecrets: []
+
+configmap:
+  enabled: false
+  data: {}
+
+sealedSecret:
+  enabled: false
+  encryptedData: {}
