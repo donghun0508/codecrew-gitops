@@ -8,6 +8,7 @@ loki:
     type: filesystem
   limits_config:
     retention_period: 168h
+  useTestSchema: true  # 추가!
 
 singleBinary:
   replicas: 1
