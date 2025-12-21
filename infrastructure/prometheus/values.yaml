@@ -10,7 +10,7 @@ prometheusOperator:
 
 prometheus:
   prometheusSpec:
-    retention: 7d
+    retention: 1d
     resources:
       requests:
         memory: 800Mi
