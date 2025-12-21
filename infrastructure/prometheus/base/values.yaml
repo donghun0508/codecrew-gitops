@@ -12,7 +12,6 @@ prometheusOperator:
     limits:
       memory: 256Mi
 
-
 alertmanager:
   enabled: false
 

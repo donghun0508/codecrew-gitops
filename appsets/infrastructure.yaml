@@ -5,53 +5,24 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - list:
-        elements:
-          - name: prometheus
-            namespace: monitoring
-            chart: kube-prometheus-stack
-            repoURL: https://prometheus-community.github.io/helm-charts
-            targetRevision: "80.4.1"
-#          - name: loki
-#            namespace: logging
-#            chart: loki
-#            repoURL: https://grafana.github.io/helm-charts
-#            targetRevision: "6.49.0"
-          - name: promtail
-            namespace: logging
-            chart: promtail
-            repoURL: https://grafana.github.io/helm-charts
-            targetRevision: "6.17.1"
+    - git:
+        repoURL: https://github.com/donghun0508/codecrew-gitops
+        revision: main
+        directories:
+          - path: infrastructure/*
 
   template:
     metadata:
-      name: "{{name}}"
+      name: "infra-{{path.basename}}"
     spec:
       project: default
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{namespace}}"
-
-      ignoreDifferences:
-        - group: apps
-          kind: Deployment
-          name: prometheus-grafana
-          namespace: monitoring
-          jqPathExpressions:
-            - .spec.template.metadata.annotations
-            - .spec.replicas
-
-      sources:
-        - repoURL: "{{repoURL}}"
-          chart: "{{chart}}"
-          targetRevision: "{{targetRevision}}"
-          helm:
-            valueFiles:
-              - $values/infrastructure/{{name}}/values.yaml
-        - repoURL: https://github.com/donghun0508/codecrew-gitops
-          targetRevision: main
-          ref: values
-
+        namespace: "{{path.basename}}"
+      source:
+        repoURL: https://github.com/donghun0508/codecrew-gitops
+        targetRevision: main
+        path: "{{path}}"
       syncPolicy:
         automated:
           prune: true
