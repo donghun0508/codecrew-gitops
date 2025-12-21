@@ -37,10 +37,7 @@ grafana:
   sidecar:
     dashboards:
       enabled: false
-  dashboardProviders:
-    dashboardproviders.yaml:
-      apiVersion: 1
-      providers: [ ]
+  dashboardProviders: {}   # providers 파일 자체를 안 만들게
 
 prometheus:
   prometheusSpec:
