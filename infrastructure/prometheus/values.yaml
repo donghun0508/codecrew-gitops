@@ -9,7 +9,7 @@ prometheusOperator:
       memory: 256Mi
 
 alertmanager:
-  enabled: false  # 비활성화!
+  enabled: false
 
 grafana:
   service:
@@ -24,19 +24,19 @@ grafana:
     pathType: Prefix
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
+      cpu: 100m
+      memory: 512Mi
     limits:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 500m
+      memory: 1Gi
 
 prometheus:
   prometheusSpec:
-    retention: 6h  # 1d → 6h
+    retention: 6h
     resources:
       requests:
-        cpu: 100m     # 400m → 100m
-        memory: 512Mi # 800Mi → 512Mi
+        cpu: 100m
+        memory: 512Mi
       limits:
         cpu: 500m
         memory: 1Gi
