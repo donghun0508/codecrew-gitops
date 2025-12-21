@@ -42,14 +42,10 @@ spec:
             valueFiles:
               - $values/infrastructure/{{name}}/values.yaml
 
-        # Namespace와 기타 리소스 소스
+        # Values 파일 소스
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
           ref: values
-          path: infrastructure/{{name}}
-          directory:
-            recurse: false
-            include: "namespace.yaml"
 
       syncPolicy:
         automated:
