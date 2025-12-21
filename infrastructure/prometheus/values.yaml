@@ -1,8 +1,8 @@
 prometheusOperator:
   admissionWebhooks:
-    enabled: true
+    enabled: false
     patch:
-      enabled: true
+      enabled: false
   resources:
     requests:
       memory: 128Mi
