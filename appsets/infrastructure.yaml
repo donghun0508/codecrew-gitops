@@ -12,13 +12,11 @@ spec:
             chart: kube-prometheus-stack
             repoURL: https://prometheus-community.github.io/helm-charts
             targetRevision: "80.4.1"
-
           - name: loki
             namespace: logging
             chart: loki
             repoURL: https://grafana.github.io/helm-charts
             targetRevision: "6.49.0"
-
           - name: promtail
             namespace: logging
             chart: promtail
@@ -35,15 +33,19 @@ spec:
         namespace: "{{namespace}}"
 
       ignoreDifferences:
-        - group: ""
-          kind: Service
-          jqPathExpressions:
-            - .metadata.labels
         - group: apps
           kind: Deployment
           jsonPointers:
             - /spec/replicas
-            - /metadata/annotations
+        - group: ""
+          kind: Service
+          jqPathExpressions:
+            - .metadata.labels
+            - .metadata.annotations
+        - group: admissionregistration.k8s.io
+          kind: ValidatingWebhookConfiguration
+          jqPathExpressions:
+            - .webhooks[].failurePolicy
 
       sources:
         - repoURL: "{{repoURL}}"
@@ -52,7 +54,6 @@ spec:
           helm:
             valueFiles:
               - $values/infrastructure/{{name}}/values.yaml
-
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
           ref: values
