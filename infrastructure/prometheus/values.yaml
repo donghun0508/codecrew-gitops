@@ -1,0 +1,11 @@
+grafana:
+  service:
+    type: ClusterIP
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hosts:
+      - grafana.codecrew.site
+    path: /
+    pathType: Prefix
