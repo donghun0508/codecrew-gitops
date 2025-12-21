@@ -67,3 +67,4 @@ spec:
           - ServerSideApply=true
           - Replace=true
           - SkipDryRunOnMissingResource=true
+          - SkipHooks=true
