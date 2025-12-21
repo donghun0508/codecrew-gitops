@@ -39,7 +39,7 @@ env:
 
 monitoring:
   enabled: true
-  namespace: monitoring
+  namespace: prometheus
   labels:
     release: kube-prometheus
   path: /actuator/prometheus
