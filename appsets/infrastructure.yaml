@@ -35,18 +35,16 @@ spec:
       ignoreDifferences:
         - group: apps
           kind: Deployment
-          jsonPointers:
-            - /spec/replicas
-        - group: ""
-          kind: Secret
           name: prometheus-grafana
           namespace: monitoring
           jqPathExpressions:
-            - .data
-        - group: admissionregistration.k8s.io
-          kind: ValidatingWebhookConfiguration
+            - .spec.template.metadata.annotations
+            - .spec.replicas
+        - group: ""
+          kind: Secret
+          name: prometheus-grafana
           jqPathExpressions:
-            - .webhooks[].failurePolicy
+            - .data
 
       sources:
         - repoURL: "{{repoURL}}"
@@ -66,4 +64,3 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ServerSideApply=true
-          - SkipDryRunOnMissingResource=true
