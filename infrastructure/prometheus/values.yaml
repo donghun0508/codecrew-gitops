@@ -3,12 +3,15 @@ prometheusOperator:
     enabled: false
     patch:
       enabled: false
+  tls:
+    enabled: false
   resources:
     requests:
       memory: 128Mi
       cpu: 100m
     limits:
       memory: 256Mi
+
 
 alertmanager:
   enabled: false
