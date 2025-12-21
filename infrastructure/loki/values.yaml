@@ -1,0 +1,27 @@
+backend:
+  replicas: 0
+
+deploymentMode: SingleBinary
+
+loki:
+  auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: filesystem
+  useTestSchema: true
+
+persistence:
+  enabled: false
+
+read:
+  replicas: 0
+
+simpleScalable:
+  enabled: false
+
+singleBinary:
+  replicas: 1
+
+write:
+  replicas: 0
