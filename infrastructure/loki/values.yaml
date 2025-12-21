@@ -39,6 +39,8 @@ persistence:
   enabled: false
 
 gateway:
+  enabled: true
+  replicas: 1
   affinity: {}
   resources:
     requests:
