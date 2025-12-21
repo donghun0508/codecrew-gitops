@@ -9,6 +9,9 @@ spec:
     repoURL: https://github.com/donghun0508/codecrew-gitops
     targetRevision: main
     path: appsets
+    directory:
+      recurse: false
+      include: "*.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
@@ -16,3 +19,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
