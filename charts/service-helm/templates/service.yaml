@@ -4,7 +4,7 @@ metadata:
   name: {{ include "service-helm.fullname" . }}
   labels:
     {{- include "service-helm.labels" . | nindent 4 }}
-      {{- include "service-helm.selectorLabels" . | nindent 4 }}
+    {{- include "service-helm.selectorLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   selector:
