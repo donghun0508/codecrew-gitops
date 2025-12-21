@@ -46,6 +46,7 @@ spec:
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
           ref: values
+          path: .
 
       syncPolicy:
         automated:
