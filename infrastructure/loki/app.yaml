@@ -1,0 +1,5 @@
+name: loki
+chart: loki
+repo: https://grafana.github.io/helm-charts
+version: "6.23.0"
+namespace: loki
