@@ -34,6 +34,13 @@ grafana:
     limits:
       cpu: 500m
       memory: 1Gi
+  sidecar:
+    dashboards:
+      enabled: false
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers: [ ]
 
 prometheus:
   prometheusSpec:
