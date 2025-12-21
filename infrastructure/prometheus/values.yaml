@@ -8,24 +8,8 @@ prometheusOperator:
     limits:
       memory: 256Mi
 
-prometheus:
-  prometheusSpec:
-    retention: 1d
-    resources:
-      requests:
-        memory: 800Mi
-        cpu: 400m
-      limits:
-        memory: 1.5Gi
-
 alertmanager:
-  alertmanagerSpec:
-    resources:
-      requests:
-        memory: 64Mi
-        cpu: 50m
-      limits:
-        memory: 128Mi
+  enabled: false  # 비활성화!
 
 grafana:
   service:
@@ -40,31 +24,31 @@ grafana:
     pathType: Prefix
   resources:
     requests:
-      memory: 128Mi
       cpu: 50m
+      memory: 128Mi
     limits:
+      cpu: 200m
       memory: 256Mi
-  readinessProbe:
-    initialDelaySeconds: 60
-    timeoutSeconds: 10
-    periodSeconds: 10
-  livenessProbe:
-    initialDelaySeconds: 60
-    timeoutSeconds: 10
-    periodSeconds: 10
+
+prometheus:
+  prometheusSpec:
+    retention: 6h  # 1d → 6h
+    resources:
+      requests:
+        cpu: 100m     # 400m → 100m
+        memory: 512Mi # 800Mi → 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
 
 kube-state-metrics:
   resources:
     requests:
+      cpu: 20m
       memory: 64Mi
-      cpu: 10m
-    limits:
-      memory: 128Mi
 
 prometheus-node-exporter:
   resources:
     requests:
-      memory: 30Mi
       cpu: 10m
-    limits:
-      memory: 50Mi
+      memory: 32Mi
