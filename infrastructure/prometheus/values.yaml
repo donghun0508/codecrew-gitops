@@ -38,6 +38,9 @@ grafana:
   sidecar:
     dashboards:
       enabled: false
+    datasources:
+      enabled: true
+      defaultDatasourceEnabled: true
   dashboardProviders: {}   # providers 파일 자체를 안 만들게
 
 prometheus:
