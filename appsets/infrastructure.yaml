@@ -58,5 +58,6 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true      # 추가
-          - Replace=true              # 추가 (CRD 교체)
+          - ServerSideApply=true
+          - Replace=true
+          - SkipDryRunOnMissingResource=true
