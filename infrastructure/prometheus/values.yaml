@@ -9,7 +9,3 @@ grafana:
       - grafana.codecrew.site
     path: /
     pathType: Prefix
-
-prometheusOperator:
-  admissionWebhooks:
-    enabled: false

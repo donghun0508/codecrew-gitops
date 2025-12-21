@@ -38,11 +38,6 @@ spec:
           jsonPointers:
             - /spec/replicas
         - group: ""
-          kind: Service
-          jqPathExpressions:
-            - .metadata.labels
-            - .metadata.annotations
-        - group: ""
           kind: Secret
           name: prometheus-grafana
           namespace: monitoring
@@ -71,6 +66,4 @@ spec:
         syncOptions:
           - CreateNamespace=true
           - ServerSideApply=true
-          - Replace=true
           - SkipDryRunOnMissingResource=true
-          - SkipHooks=true
