@@ -42,6 +42,12 @@ spec:
           jqPathExpressions:
             - .metadata.labels
             - .metadata.annotations
+        - group: ""
+          kind: Secret
+          name: prometheus-grafana
+          namespace: monitoring
+          jqPathExpressions:
+            - .data
         - group: admissionregistration.k8s.io
           kind: ValidatingWebhookConfiguration
           jqPathExpressions:
