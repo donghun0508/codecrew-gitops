@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: ""   # values/<service>/prod.yaml 에서 필수로 채움
-  tag: ""          # CI가 values/<service>/prod.yaml 에서 갱신
+  repository: ""   # services/<service>/prod.yaml 에서 필수로 채움
+  tag: ""          # CI가 services/<service>/prod.yaml 에서 갱신
   pullPolicy: IfNotPresent
 
 containerPort: 8080
