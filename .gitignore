@@ -1,12 +1,6 @@
 # IDE
 .idea/
-
-# Private keys
 *.pem
-
-# Plain secrets (kubeseal 입력용, 절대 커밋 금지)
 **/secret.yaml
-
-# Scripts / infrastructure (커밋 대상이면 ❌ 제거)
 scripts/
 base/

@@ -26,15 +26,15 @@ spec:
           helm:
             releaseName: "{{path.basename}}"
             valueFiles:
-              - $services/services/{{path.basename}}/prod.yaml
+              - $values/services/{{path.basename}}/prod.yaml
 
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
-          ref: services
+          ref: values
           path: services/{{path.basename}}
           directory:
             recurse: true
-            include: "{configmap.yaml,sealedsecret.yaml,sealedsecret-ghcr.yaml}"
+            include: "{configmap.yaml,sealedsecret.yaml,sealedsecret-*.yaml}"
             exclude: "{prod.yaml,secret.yaml}"
 
       syncPolicy:

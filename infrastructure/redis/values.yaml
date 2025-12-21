@@ -1,0 +1,25 @@
+auth:
+  enabled: false
+
+master:
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 500m
+
+replica:
+  replicaCount: 1
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 500m
