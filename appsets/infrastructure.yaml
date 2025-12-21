@@ -5,24 +5,52 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - git:
-        repoURL: https://github.com/donghun0508/codecrew-gitops
-        revision: main
-        directories:
-          - path: infrastructure/*
+    - list:
+        elements:
+          - name: prometheus
+            chart: kube-prometheus-stack
+            repo: https://prometheus-community.github.io/helm-charts
+            version: "80.4.1"
+            namespace: prometheus
+          - name: loki
+            chart: loki
+            repo: https://grafana.github.io/helm-charts
+            version: "6.23.0"
+            namespace: loki
+          - name: promtail
+            chart: promtail
+            repo: https://grafana.github.io/helm-charts
+            version: "6.17.1"
+            namespace: promtail
 
   template:
     metadata:
-      name: "infra-{{path.basename}}"
+      name: "infra-{{name}}"
     spec:
       project: default
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{path.basename}}"
-      source:
-        repoURL: https://github.com/donghun0508/codecrew-gitops
-        targetRevision: main
-        path: "{{path}}"
+        namespace: "{{namespace}}"
+
+      sources:
+        # Helm Chart 소스
+        - repoURL: "{{repo}}"
+          chart: "{{chart}}"
+          targetRevision: "{{version}}"
+          helm:
+            releaseName: "{{name}}"
+            valueFiles:
+              - $values/infrastructure/{{name}}/values.yaml
+
+        # Namespace와 기타 리소스 소스
+        - repoURL: https://github.com/donghun0508/codecrew-gitops
+          targetRevision: main
+          ref: values
+          path: infrastructure/{{name}}
+          directory:
+            recurse: false
+            include: "namespace.yaml"
+
       syncPolicy:
         automated:
           prune: true
