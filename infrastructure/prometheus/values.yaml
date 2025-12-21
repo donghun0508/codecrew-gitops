@@ -13,10 +13,10 @@ prometheus:
     retention: 7d
     resources:
       requests:
-        memory: 400Mi
-        cpu: 200m
-      limits:
         memory: 800Mi
+        cpu: 400m
+      limits:
+        memory: 1.5Gi
 
 alertmanager:
   alertmanagerSpec:
