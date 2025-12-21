@@ -34,7 +34,7 @@ spec:
           path: services/{{path.basename}}
           directory:
             recurse: true
-            include: "{configmap.yaml,sealedsecret.yaml,sealedsecret-*.yaml}"
+            include: "{namespace.yaml,configmap.yaml,sealedsecret.yaml,sealedsecret-*.yaml}"
             exclude: "{prod.yaml,secret.yaml}"
 
       syncPolicy:
