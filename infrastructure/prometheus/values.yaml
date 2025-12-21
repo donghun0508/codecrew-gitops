@@ -1,6 +1,7 @@
 grafana:
   service:
-    type: ClusterIP
+    type: NodePort
+    nodePort: 31000
 
   ingress:
     enabled: true
