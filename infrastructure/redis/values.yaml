@@ -1,6 +1,11 @@
 auth:
   enabled: false
 
+image:
+  registry: docker.io
+  repository: bitnami/redis
+  tag: latest
+
 master:
   persistence:
     enabled: false
