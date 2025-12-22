@@ -1,5 +1,5 @@
 replicaCount: 2
-revisionHistoryLimit: 3
+revisionHistoryLimit: 2
 
 image:
   repository: ""   # services/<service>/prod.yaml 에서 필수로 채움
