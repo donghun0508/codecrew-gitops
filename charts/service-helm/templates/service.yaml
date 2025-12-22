@@ -7,6 +7,9 @@ metadata:
     {{- include "service-helm.selectorLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  {{- if .Values.service.clusterIP }}
+  clusterIP: {{ .Values.service.clusterIP }}
+  {{- end }}
   selector:
     {{- include "service-helm.selectorLabels" . | nindent 4 }}
   ports:
