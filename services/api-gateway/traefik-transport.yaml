@@ -1,0 +1,11 @@
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: api-gateway-transport
+  namespace: api-gateway
+spec:
+  forwardingTimeouts:
+    dialTimeout: 3s
+    responseHeaderTimeout: 10s
+    idleConnTimeout: 10s
+    readIdleTimeout: 5s

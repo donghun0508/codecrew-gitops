@@ -22,7 +22,8 @@ ingress:
   className: traefik
   host: api.codecrew.site
   path: /
-  annotations: {}
+  annotations:
+    traefik.ingress.kubernetes.io/service.serverstransport: api-gateway-transport@kubernetescrd
   tls: []
 
 resources:
