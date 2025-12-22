@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/donghun0508/api-gateway
-  tag: 335e5427db3222dcba8e2873da2208bd271006a7
+  tag: 3da8e1bbf157d0287e7af9a13614e0c11766d335
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
