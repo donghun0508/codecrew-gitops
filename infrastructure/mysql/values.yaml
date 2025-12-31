@@ -25,7 +25,9 @@ primary:
     size: 10Gi
 
   service:
-    type: LoadBalancer
+    type: NodePort
+    nodePorts:
+      mysql: 30306
 
 resources:
   requests:
