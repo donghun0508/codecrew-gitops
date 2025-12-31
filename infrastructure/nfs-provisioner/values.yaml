@@ -1,6 +1,6 @@
 nfs:
   server: 192.168.0.85
-  path: /volume1/k3s-storage
+  path: /srv/nfs/k3s-storage
 
 storageClass:
   name: nfs
