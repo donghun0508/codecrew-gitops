@@ -12,11 +12,17 @@ command:
 http:
   relativePath: "/"
 
-extraEnvFrom: |
+extraEnvFrom:
   - secretRef:
       name: keycloak-auth
   - configMapRef:
       name: keycloak-config
+
+extraEnv:
+  - name: KC_HEALTH_ENABLED
+    value: "true"
+  - name: KC_METRICS_ENABLED
+    value: "true"
 
 dbchecker:
   enabled: true
@@ -51,27 +57,32 @@ health:
 metrics:
   enabled: true
 
-startupProbe: |
+startupProbe:
+  enabled: true
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/ready'
-    port: http
+    path: /health/ready
+    port: 9000
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 60
 
-readinessProbe: |
+readinessProbe:
+  enabled: true
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/ready'
-    port: http
+    path: /health/ready
+    port: 9000
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 2
+  failureThreshold: 12
 
-livenessProbe: |
+livenessProbe:
+  enabled: true
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/live'
-    port: http
+    path: /health/live
+    port: 9000
   initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 2
+  failureThreshold: 6
