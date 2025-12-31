@@ -52,30 +52,3 @@ health:
 
 metrics:
   enabled: true
-
-startupProbe: |
-  httpGet:
-    path: /health/ready
-    port: 8080
-  initialDelaySeconds: 20
-  periodSeconds: 5
-  timeoutSeconds: 2
-  failureThreshold: 60
-
-readinessProbe: |
-  httpGet:
-    path: /health/ready
-    port: 8080
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  timeoutSeconds: 2
-  failureThreshold: 12
-
-livenessProbe: |
-  httpGet:
-    path: /health/live
-    port: 8080
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  timeoutSeconds: 2
-  failureThreshold: 6
