@@ -47,12 +47,15 @@ resources:
     cpu: 2000m
     memory: 2Gi
 
-health:
-  enabled: true
-
 metrics:
   enabled: true
 
-startupProbe: ""
-readinessProbe: ""
-livenessProbe: ""
+health:
+  enabled: false
+
+startupProbe:
+  enabled: false
+readinessProbe:
+  enabled: false
+livenessProbe:
+  enabled: false
