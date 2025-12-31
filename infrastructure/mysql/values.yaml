@@ -1,5 +1,8 @@
 architecture: standalone
 
+image:
+  tag: "9.4.0"
+
 auth:
   enabled: true
   rootPassword: ""
