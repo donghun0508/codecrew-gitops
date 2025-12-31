@@ -1,7 +1,7 @@
 architecture: standalone
 
 image:
-  tag: "9.4.0"
+  tag: "8.4"
 
 auth:
   enabled: true
