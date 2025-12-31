@@ -44,8 +44,11 @@ spec:
       ignoreDifferences:
         - group: apps
           kind: StatefulSet
+          jsonPointers:
+            - /spec/volumeClaimTemplates
+        - group: apps
+          kind: StatefulSet
           jqPathExpressions:
-            - .spec.volumeClaimTemplates[]?.metadata.annotations
             - .spec.template.metadata.annotations
         - group: ""
           kind: PersistentVolumeClaim
