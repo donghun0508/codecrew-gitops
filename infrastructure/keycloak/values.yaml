@@ -47,6 +47,7 @@ ingress:
           pathType: Prefix
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    ingress.kubernetes.io/force-ssl-redirect: "true"
 
 resources:
   requests:
