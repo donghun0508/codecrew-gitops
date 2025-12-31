@@ -45,6 +45,10 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
+  tls:
+    - hosts:
+        - auth.codecrew.site
+      secretName: auth-codecrew-tls
   annotations:
     cert-manager.io/cluster-issuer: cloudflare-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
