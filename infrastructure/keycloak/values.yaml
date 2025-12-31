@@ -33,11 +33,22 @@ database:
   existingSecretKey: DB_PASSWORD
 
 service:
-  type: NodePort
+  type: ClusterIP
   httpPort: 80
   httpsPort: 443
-  httpNodePort: 30880
-  httpsNodePort: 30443
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  rules:
+    - host: auth.codecrew.site
+      paths:
+        - path: /
+          pathType: Prefix
+  annotations:
+    cert-manager.io/cluster-issuer: cloudflare-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
 
 resources:
   requests:
