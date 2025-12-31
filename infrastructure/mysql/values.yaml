@@ -2,16 +2,21 @@ architecture: standalone
 
 image:
   registry: docker.io
-  repository: mysql
-  tag: "lts"
+  repository: bitnamilegacy/mysql
+  tag: 8.4.5-debian-12-r0
+
+volumePermissions:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/os-shell
+    tag: 12-debian-12-r50
 
 auth:
   enabled: true
-  rootPassword: ""
   existingSecret: mysql-auth
   database: codecrew
   username: codecrew
-  password: ""
 
 primary:
   persistence:
