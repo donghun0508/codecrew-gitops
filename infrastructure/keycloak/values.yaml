@@ -55,11 +55,10 @@ health:
 metrics:
   enabled: true
 
-# probes도 string(|)로 (관리포트 9000을 직접 찌르기)
 startupProbe: |
   httpGet:
     path: /health/ready
-    port: 9000
+    port: 8080
   initialDelaySeconds: 20
   periodSeconds: 5
   timeoutSeconds: 2
@@ -68,7 +67,7 @@ startupProbe: |
 readinessProbe: |
   httpGet:
     path: /health/ready
-    port: 9000
+    port: 8080
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 2
@@ -77,7 +76,7 @@ readinessProbe: |
 livenessProbe: |
   httpGet:
     path: /health/live
-    port: 9000
+    port: 8080
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 2
