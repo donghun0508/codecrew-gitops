@@ -57,29 +57,27 @@ health:
 metrics:
   enabled: true
 
-startupProbe:
+startupProbe: |
   httpGet:
-    path: /health/ready
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/ready'
     port: http
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 60
 
-readinessProbe:
+readinessProbe: |
   httpGet:
-    path: /health/ready
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/ready'
     port: http
   initialDelaySeconds: 10
   periodSeconds: 10
   timeoutSeconds: 2
-  failureThreshold: 12
 
-livenessProbe:
+livenessProbe: |
   httpGet:
-    path: /health/live
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/live'
     port: http
   initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 2
-  failureThreshold: 6
