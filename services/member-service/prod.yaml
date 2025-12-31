@@ -1,0 +1,34 @@
+fullnameOverride: member-service
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/donghun0508/member-service
+  tag: e681c38377d52d8d1ab461e6aa7b2fcd03b4f025
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: ghcr-secret
+
+containerPort: 8080
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: http
+
+ingress:
+  enabled: false
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: prod
+
+monitoring:
+  enabled: true
+  namespace: prometheus
+  labels:
+    release: prometheus
+  path: /actuator/prometheus
+  interval: 15s
+  portName: http
