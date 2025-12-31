@@ -5,12 +5,11 @@ image:
 
 replicas: 1
 
-command:
-  - "/opt/keycloak/bin/kc.sh"
+command: []
+
+args:
   - "start"
-  - "--http-enabled=true"
-  - "--http-port=8080"
-  - "--hostname-strict=false"
+  - "--optimized"
 
 http:
   relativePath: "/"
