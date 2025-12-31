@@ -1,56 +1,32 @@
-# Keycloak 이미지 설정
 image:
   repository: quay.io/keycloak/keycloak
   tag: "26.4.5"
   pullPolicy: IfNotPresent
 
-# Keycloak 시작 명령
+replicas: 1
+
 command:
   - "/opt/keycloak/bin/kc.sh"
   - "start"
 
-# 환경 변수 설정
-extraEnv: |
-  - name: KEYCLOAK_ADMIN
-    value: admin
-  - name: KEYCLOAK_ADMIN_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: keycloak-auth
-        key: admin-password
-  - name: KC_DB
-    value: mysql
-  - name: KC_DB_URL_HOST
-    value: mysql.mysql.svc.cluster.local
-  - name: KC_DB_URL_PORT
-    value: "3306"
-  - name: KC_DB_URL_DATABASE
-    value: keycloak
-  - name: KC_DB_USERNAME
-    value: keycloak
-  - name: KC_DB_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: keycloak-auth
-        key: db-password
-  - name: KC_PROXY_HEADERS
-    value: xforwarded
-  - name: KC_HTTP_ENABLED
-    value: "true"
-  - name: KC_HOSTNAME_STRICT
-    value: "false"
+extraEnvFrom: |
+  - secretRef:
+      name: keycloak-auth
+  - configMapRef:
+      name: keycloak-config
 
-# 데이터 영구 저장 볼륨
-extraVolumes: |
-  - name: keycloak-data
-    persistentVolumeClaim:
-      claimName: keycloak-data
+dbchecker:
+  enabled: true
 
-extraVolumeMounts: |
-  - name: keycloak-data
-    mountPath: /opt/keycloak/data
+database:
+  vendor: mysql
+  hostname: mysql.mysql.svc.cluster.local
+  port: 3306
+  database: keycloak
+  username: keycloak
+  existingSecret: keycloak-auth
+  existingSecretKey: DB_PASSWORD
 
-# 서비스 설정
 service:
   type: NodePort
   httpPort: 80
@@ -58,7 +34,6 @@ service:
   httpNodePort: 30880
   httpsNodePort: 30443
 
-# 리소스 제한
 resources:
   requests:
     cpu: 100m
@@ -67,13 +42,8 @@ resources:
     cpu: 2000m
     memory: 2Gi
 
-# Health check 활성화
 health:
   enabled: true
 
-# Metrics 활성화
 metrics:
   enabled: true
-
-# Replicas
-replicas: 1
