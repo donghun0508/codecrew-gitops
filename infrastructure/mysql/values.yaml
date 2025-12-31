@@ -9,8 +9,8 @@ volumePermissions:
   enabled: true
   image:
     registry: docker.io
-    repository: busybox
-    tag: latest
+    repository: bitnamilegacy/os-shell
+    tag: 12-debian-12-r50
 
 auth:
   enabled: true
