@@ -24,13 +24,6 @@ extraEnvFrom: |
   - configMapRef:
       name: keycloak-config
 
-# 이 차트 스키마: string(|)만 허용
-extraEnv: |
-  - name: KC_HEALTH_ENABLED
-    value: "true"
-  - name: KC_METRICS_ENABLED
-    value: "true"
-
 dbchecker:
   enabled: true
 
