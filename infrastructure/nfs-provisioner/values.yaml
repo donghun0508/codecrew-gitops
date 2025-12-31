@@ -1,0 +1,17 @@
+nfs:
+  server: 192.168.0.85
+  path: /volume1/k3s-storage
+
+storageClass:
+  name: nfs
+  defaultClass: false
+  archiveOnDelete: true
+  reclaimPolicy: Retain
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 16Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi

@@ -1,0 +1,26 @@
+architecture: standalone
+
+auth:
+  enabled: true
+  rootPassword: ""
+  existingSecret: mysql-auth
+  database: codecrew
+  username: codecrew
+  password: ""
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: nfs
+    size: 10Gi
+
+  service:
+    type: LoadBalancer
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
