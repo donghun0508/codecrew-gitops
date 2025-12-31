@@ -1,7 +1,9 @@
 architecture: standalone
 
 image:
-  tag: "8.4"
+  registry: docker.io
+  repository: mysql
+  tag: "lts"
 
 auth:
   enabled: true
