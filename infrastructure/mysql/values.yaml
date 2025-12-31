@@ -3,14 +3,14 @@ architecture: standalone
 image:
   registry: docker.io
   repository: mysql
-  tag: "8.4"
+  tag: "latest"
 
 volumePermissions:
   enabled: true
   image:
     registry: docker.io
-    repository: bitnamilegacy/os-shell
-    tag: 12-debian-12-r50
+    repository: busybox
+    tag: latest
 
 auth:
   enabled: true
