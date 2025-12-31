@@ -41,6 +41,22 @@ spec:
             recurse: true
             exclude: "values.yaml"
 
+      ignoreDifferences:
+        - group: apps
+          kind: StatefulSet
+          jqPathExpressions:
+            - .spec.volumeClaimTemplates[]?.metadata.annotations
+            - .spec.template.metadata.annotations
+        - group: ""
+          kind: PersistentVolumeClaim
+          jqPathExpressions:
+            - .spec.volumeName
+        - group: ""
+          kind: Service
+          jqPathExpressions:
+            - .spec.clusterIP
+            - .spec.clusterIPs
+
       syncPolicy:
         automated:
           prune: true
