@@ -1,0 +1,5 @@
+name: keycloak
+chart: keycloak
+repo: https://charts.bitnami.com/bitnami
+version: "25.2.0"
+namespace: keycloak

@@ -1,0 +1,52 @@
+image:
+  registry: docker.io
+  repository: bitnami/keycloak
+  tag: 26.1.0-debian-12-r3
+
+auth:
+  adminUser: admin
+  existingSecret: keycloak-auth
+  adminPasswordKey: admin-password
+
+# 내장 PostgreSQL 비활성화 (외부 MySQL 사용)
+postgresql:
+  enabled: false
+
+# MySQL 외부 데이터베이스 설정
+externalDatabase:
+  host: mysql.mysql.svc.cluster.local
+  port: 3306
+  database: keycloak
+  user: keycloak
+  existingSecret: keycloak-auth
+  existingSecretPasswordKey: db-password
+
+# 데이터 영구 저장 (테마, 설정 등)
+persistence:
+  enabled: true
+  storageClass: nfs
+  size: 5Gi
+
+# 서비스 설정
+service:
+  type: NodePort
+  nodePorts:
+    http: 30880
+    https: 30443
+
+# 리소스 제한
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+
+# 프록시 설정 (reverse proxy 사용시)
+proxy:
+  enabled: true
+  mode: edge
+
+# HTTP 활성화
+httpEnabled: true
