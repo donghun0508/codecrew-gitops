@@ -9,6 +9,10 @@ command:
   - "/opt/keycloak/bin/kc.sh"
   - "start"
 
+# HTTP 경로 설정 (Keycloak 17+ Quarkus는 /auth 사용 안함)
+http:
+  relativePath: "/"
+
 extraEnvFrom: |
   - secretRef:
       name: keycloak-auth
