@@ -52,3 +52,7 @@ health:
 
 metrics:
   enabled: true
+
+startupProbe: ""
+readinessProbe: ""
+livenessProbe: ""
