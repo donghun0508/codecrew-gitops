@@ -23,6 +23,8 @@ primary:
     enabled: true
     storageClass: nfs
     size: 10Gi
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
 
   service:
     type: NodePort
