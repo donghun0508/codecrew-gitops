@@ -1,89 +1,85 @@
-keycloakx:
-  image:
-    repository: quay.io/keycloak/keycloak
-    tag: "26.4.5"
-    pullPolicy: IfNotPresent
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: "26.4.5"
+  pullPolicy: IfNotPresent
 
-  replicas: 1
+replicas: 1
 
-  command:
-    - "/opt/keycloak/bin/kc.sh"
-    - "start"
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "start"
 
-  http:
-    relativePath: "/"
+http:
+  relativePath: "/"
 
-  extraEnvFrom:
-    - secretRef:
-        name: keycloak-auth
-    - configMapRef:
-        name: keycloak-config
+extraEnvFrom: |
+  - secretRef:
+      name: keycloak-auth
+  - configMapRef:
+      name: keycloak-config
 
-  extraEnv:
-    - name: KC_HEALTH_ENABLED
-      value: "true"
-    - name: KC_METRICS_ENABLED
-      value: "true"
+extraEnv: |
+  - name: KC_HEALTH_ENABLED
+    value: "true"
+  - name: KC_METRICS_ENABLED
+    value: "true"
 
-  dbchecker:
-    enabled: true
+dbchecker:
+  enabled: true
 
-  database:
-    vendor: mysql
-    hostname: mysql.mysql.svc.cluster.local
-    port: 3306
-    database: keycloak
-    username: keycloak
-    existingSecret: keycloak-auth
-    existingSecretKey: DB_PASSWORD
+database:
+  vendor: mysql
+  hostname: mysql.mysql.svc.cluster.local
+  port: 3306
+  database: keycloak
+  username: keycloak
+  existingSecret: keycloak-auth
+  existingSecretKey: DB_PASSWORD
 
-  service:
-    type: NodePort
-    httpPort: 80
-    httpsPort: 443
-    httpNodePort: 30880
-    httpsNodePort: 30443
+service:
+  type: NodePort
+  httpPort: 80
+  httpsPort: 443
+  httpNodePort: 30880
+  httpsNodePort: 30443
 
-  resources:
-    requests:
-      cpu: 100m
-      memory: 512Mi
-    limits:
-      cpu: 2000m
-      memory: 2Gi
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: 2000m
+    memory: 2Gi
 
-  health:
-    enabled: true
+health:
+  enabled: true
 
-  metrics:
-    enabled: true
+metrics:
+  enabled: true
 
-  startupProbe:
-    enabled: true
-    httpGet:
-      path: /health/ready
-      port: 9000
-    initialDelaySeconds: 10
-    periodSeconds: 10
-    timeoutSeconds: 2
-    failureThreshold: 60
+startupProbe:
+  httpGet:
+    path: /health/ready
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 60
 
-  readinessProbe:
-    enabled: true
-    httpGet:
-      path: /health/ready
-      port: 9000
-    initialDelaySeconds: 10
-    periodSeconds: 10
-    timeoutSeconds: 2
-    failureThreshold: 12
+readinessProbe:
+  httpGet:
+    path: /health/ready
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 12
 
-  livenessProbe:
-    enabled: true
-    httpGet:
-      path: /health/live
-      port: 9000
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 2
-    failureThreshold: 6
+livenessProbe:
+  httpGet:
+    path: /health/live
+    port: http
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 6
