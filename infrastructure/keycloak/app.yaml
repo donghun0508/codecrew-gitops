@@ -1,5 +1,5 @@
 name: keycloak
-chart: keycloak
-repo: https://charts.bitnami.com/bitnami
-version: "25.2.0"
+chart: keycloakx
+repo: https://codecentric.github.io/helm-charts
+version: "7.1.5"
 namespace: keycloak
