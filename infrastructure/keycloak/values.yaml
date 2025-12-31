@@ -5,14 +5,12 @@ image:
 
 replicas: 1
 
-# kc.sh가 "start"까지 실행되도록 보수적으로 옵션 포함
 command:
   - "/opt/keycloak/bin/kc.sh"
   - "start"
   - "--http-enabled=true"
   - "--http-port=8080"
   - "--hostname-strict=false"
-  - "--hostname-strict-https=false"
 
 http:
   relativePath: "/"
