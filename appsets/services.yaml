@@ -30,12 +30,12 @@ spec:
           helm:
             releaseName: "{{index .path.segments 1}}"
             valueFiles:
-              - "$values/{{.path.path}}/values.yaml"
+              - "$values/{{.path}}/values.yaml"
 
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
           ref: values
-          path: "{{.path.path}}"
+          path: "{{.path}}"
           directory:
             recurse: true
             include: "{configmap.yaml,sealedsecret.yaml,sealedsecret-*.yaml}"

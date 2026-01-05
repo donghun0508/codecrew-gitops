@@ -30,7 +30,7 @@ spec:
       sources:
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
-          path: "{{.path.path | dir}}"
+          path: "{{.path | dir}}"
           directory:
             recurse: true
             exclude: "app.yaml,values.yaml"
