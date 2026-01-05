@@ -3,13 +3,6 @@ kind: ApplicationSet
 metadata:
   name: infrastructure
   namespace: argocd
-spec:
-  generators:
-    - git:
-        repoURL: https://github.com/donghun0508/codecrew-gitops
-        revision: main
-        files:
-          - path: infrastructure/*/envs/*/app.yaml
 
 spec:
   generators:
@@ -39,14 +32,14 @@ spec:
             helm:
               releaseName: "{{name}}"
               valueFiles:
-                - $values/{{path | dir}}/values.yaml
+                - "$values/{{path | dir}}/values.yaml"
           - repoURL: https://github.com/donghun0508/codecrew-gitops
             targetRevision: main
             ref: values
             path: .
           - repoURL: https://github.com/donghun0508/codecrew-gitops
             targetRevision: main
-            path: {{path | dir}}
+            path: "{{path | dir}}"
             directory:
               recurse: true
               exclude: "values.yaml"
@@ -90,7 +83,7 @@ spec:
         sources:
           - repoURL: https://github.com/donghun0508/codecrew-gitops
             targetRevision: main
-            path: {{path | dir}}
+            path: "{{path | dir}}"
             directory:
               recurse: true
               # No exclusions needed for raw manifests usually, but keep clean
