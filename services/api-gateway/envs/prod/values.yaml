@@ -1,4 +1,4 @@
-fullnameOverride: api-gateway
+fullnameOverride: api-gateway-prod
 
 replicaCount: 1
 
