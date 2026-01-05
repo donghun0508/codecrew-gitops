@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: youtube-service
-  namespace: youtube-service
+  namespace: youtube-service-prod
   labels:
     app.kubernetes.io/name: youtube-service
     app.kubernetes.io/instance: youtube-service
