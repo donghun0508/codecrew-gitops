@@ -7,9 +7,6 @@ image:
   tag: aa63817c81d53850a1dae792038cdf82883c7cc5
   pullPolicy: IfNotPresent
 
-imagePullSecrets:
-  - name: ghcr-secret
-
 containerPort: 8080
 
 service:

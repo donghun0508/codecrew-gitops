@@ -1,0 +1,5 @@
+name: kubernetes-replicator
+chart: kubernetes-replicator
+repo: https://helm.mittwald.de
+version: "2.9.2"
+namespace: kube-system

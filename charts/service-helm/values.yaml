@@ -36,7 +36,8 @@ monitoring:
   interval: 15s
   portName: http
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: ghcr-secret
 
 configmap:
   enabled: false
