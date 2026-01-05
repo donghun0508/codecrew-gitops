@@ -1,0 +1,3 @@
+name: octops
+namespace: octops-system
+# No chart/repo/version fields implies this is NOT a Helm chart app

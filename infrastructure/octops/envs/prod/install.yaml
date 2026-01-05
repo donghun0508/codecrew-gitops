@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: octops-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: octops-ingress-controller
+  namespace: octops-system
+  labels:
+    app: octops-ingress-controller
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: octops-ingress-controller
+  labels:
+    app: octops-ingress-controller
+rules:
+  - apiGroups: [ "" ]
+    resources: [ "events" ]
+    verbs: [ "create", "update", "patch" ]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list", "get", "watch"]
+  - apiGroups: [ "" ]
+    resources: [ "services" ]
+    verbs: [ "list", "get", "create", "delete", "watch" ]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["list", "get", "create", "delete", "watch"]
+  - apiGroups: ["agones.dev"]
+    resources: ["gameservers","fleets"]
+    verbs: ["get", "update", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: octops-ingress-controller
+  labels:
+    app: octops-ingress-controller
+subjects:
+  - kind: User
+    name: system:serviceaccount:octops-system:octops-ingress-controller
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: octops-ingress-controller
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: octops-ingress-controller
+  name: octops-ingress-controller
+  namespace: octops-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: octops-ingress-controller
+  template:
+    metadata:
+      labels:
+        app: octops-ingress-controller
+    spec:
+      serviceAccountName: octops-ingress-controller
+      containers:
+        - image: octops/gameserver-ingress-controller:0.3.0 # Latest release
+          name: controller
+          ports:
+            - containerPort: 30235
+              name: healthz
+            - containerPort: 9090
+              name: metrics
+          args:
+            - --sync-period=15s
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "150Mi"
+            limits:
+              cpu: "2"
+              memory: "500Mi"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 30235
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 30235

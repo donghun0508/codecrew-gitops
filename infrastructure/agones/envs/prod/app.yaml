@@ -1,0 +1,5 @@
+name: agones
+chart: agones
+repo: https://agones.dev/chart/stable
+version: "1.54.0"
+namespace: agones-system

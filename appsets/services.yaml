@@ -9,33 +9,34 @@ spec:
         repoURL: https://github.com/donghun0508/codecrew-gitops
         revision: main
         directories:
-          - path: services/*
+          - path: services/*/envs/*
   template:
     metadata:
-      name: "{{path.basename}}"
+      name: "{{path.segments[1]}}-{{path.segments[3]}}"
     spec:
       project: default
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{path.basename}}"
+        namespace: "{{path.segments[1]}}-{{path.segments[3]}}"
 
       sources:
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
           path: charts/service-helm
           helm:
-            releaseName: "{{path.basename}}"
+            releaseName: "{{path.segments[1]}}"
             valueFiles:
-              - $values/services/{{path.basename}}/prod.yaml
+              - $values/{{path.path}}/values.yaml
 
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
           ref: values
-          path: services/{{path.basename}}
+          path: {{path.path}}
           directory:
             recurse: true
             include: "{configmap.yaml,sealedsecret.yaml,sealedsecret-*.yaml}"
-            exclude: "{prod.yaml,secret.yaml}"
+            # exclude values.yaml as it is used in the helm source above
+            exclude: "{values.yaml,secret.yaml}"
 
       syncPolicy:
         automated:

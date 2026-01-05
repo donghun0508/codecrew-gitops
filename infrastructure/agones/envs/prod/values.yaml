@@ -1,0 +1,5 @@
+agones:
+  allocator:
+    install: true
+  ping:
+    install: true
