@@ -1,4 +1,4 @@
-fullnameOverride: youtube-service
+fullnameOverride: world-service-prod
 
 replicaCount: 1
 

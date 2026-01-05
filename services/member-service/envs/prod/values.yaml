@@ -1,4 +1,4 @@
-fullnameOverride: member-service
+fullnameOverride: member-service-prod
 
 replicaCount: 1
 
