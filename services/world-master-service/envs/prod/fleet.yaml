@@ -2,7 +2,7 @@ apiVersion: agones.dev/v1
 kind: Fleet
 metadata:
   name: world-server-fleet
-  namespace: world-master-service
+  namespace: world-master-service-prod
 spec:
   replicas: 2
   scheduling: Packed

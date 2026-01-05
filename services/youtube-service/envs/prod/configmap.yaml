@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: youtube-service
+  name: youtube-service-prod
   namespace: youtube-service-prod
   labels:
-    app.kubernetes.io/name: youtube-service
-    app.kubernetes.io/instance: youtube-service
+    app.kubernetes.io/name: youtube-service-prod
+    app.kubernetes.io/instance: youtube-service-prod
 data:
   SERVER_PORT: "8080"
   MANAGEMENT_PORT: "8080"

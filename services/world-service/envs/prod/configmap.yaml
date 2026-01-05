@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: world-master-service
+  name: world-service-prod
   namespace: world-service-prod
   labels:
-    app.kubernetes.io/name: world-master-service
-    app.kubernetes.io/instance: world-master-service
+    app.kubernetes.io/name: world-service-prod
+    app.kubernetes.io/instance: world-service-prod
 data:
   SERVER_PORT: "8080"
   MANAGEMENT_PORT: "8080"
