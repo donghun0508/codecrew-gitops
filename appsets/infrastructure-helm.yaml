@@ -1,0 +1,72 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: infrastructure-helm
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+
+  generators:
+    # Helm chart 있는 케이스
+    - git:
+        repoURL: https://github.com/donghun0508/codecrew-gitops
+        revision: main
+        files:
+          - path: "infrastructure/*/envs/*/app.yaml"
+      selector:
+        matchExpressions:
+          - key: chart
+            operator: Exists
+
+  template:
+    metadata:
+      name: "infra-{{.name}}-{{.path.basename}}"
+    spec:
+      project: default
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{.namespace}}"
+      sources:
+        - repoURL: "{{.repo}}"
+          chart: "{{.chart}}"
+          targetRevision: "{{.version}}"
+          helm:
+            releaseName: "{{.name}}"
+            valueFiles:
+              - "$values/{{.path.path | dir}}/values.yaml"
+        - repoURL: https://github.com/donghun0508/codecrew-gitops
+          targetRevision: main
+          ref: values
+          path: "."
+        - repoURL: https://github.com/donghun0508/codecrew-gitops
+          targetRevision: main
+          path: "{{.path.path | dir}}"
+          directory:
+            recurse: true
+            exclude: "values.yaml"
+      ignoreDifferences:
+        - group: apps
+          kind: StatefulSet
+          jsonPointers:
+            - /spec/volumeClaimTemplates
+        - group: apps
+          kind: StatefulSet
+          jqPathExpressions:
+            - .spec.template.metadata.annotations
+        - group: ""
+          kind: PersistentVolumeClaim
+          jqPathExpressions:
+            - .spec.volumeName
+        - group: ""
+          kind: Service
+          jqPathExpressions:
+            - .spec.clusterIP
+            - .spec.clusterIPs
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
