@@ -3,95 +3,102 @@ kind: ApplicationSet
 metadata:
   name: infrastructure
   namespace: argocd
-
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+
   generators:
+    # Helm chart 있는 케이스
     - git:
         repoURL: https://github.com/donghun0508/codecrew-gitops
         revision: main
         files:
-          - path: infrastructure/*/envs/*/app.yaml
-
-  # Multiple templates with selectors to handle Helm vs Manifests
-  template: 
-    - metadata:
-        name: "infra-{{name}}-{{path.basename}}"
+          - path: "infrastructure/*/envs/*/app.yaml"
       selector:
         matchExpressions:
           - key: chart
             operator: Exists
-      spec:
-        project: default
-        destination:
-          server: https://kubernetes.default.svc
-          namespace: "{{namespace}}"
-        sources:
-          - repoURL: "{{repo}}"
-            chart: "{{chart}}"
-            targetRevision: "{{version}}"
-            helm:
-              releaseName: "{{name}}"
-              valueFiles:
-                - "$values/{{path | dir}}/values.yaml"
-          - repoURL: https://github.com/donghun0508/codecrew-gitops
-            targetRevision: main
-            ref: values
-            path: .
-          - repoURL: https://github.com/donghun0508/codecrew-gitops
-            targetRevision: main
-            path: "{{path | dir}}"
-            directory:
-              recurse: true
-              exclude: "values.yaml"
-        ignoreDifferences:
-          - group: apps
-            kind: StatefulSet
-            jsonPointers:
-              - /spec/volumeClaimTemplates
-          - group: apps
-            kind: StatefulSet
-            jqPathExpressions:
-              - .spec.template.metadata.annotations
-          - group: ""
-            kind: PersistentVolumeClaim
-            jqPathExpressions:
-              - .spec.volumeName
-          - group: ""
-            kind: Service
-            jqPathExpressions:
-              - .spec.clusterIP
-              - .spec.clusterIPs
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
-            - ServerSideApply=true
+      template:
+        metadata:
+          name: "infra-{{.name}}-{{.path.basename}}"
+        spec:
+          project: default
+          destination:
+            server: https://kubernetes.default.svc
+            namespace: "{{.namespace}}"
+          sources:
+            - repoURL: "{{.repo}}"
+              chart: "{{.chart}}"
+              targetRevision: "{{.version}}"
+              helm:
+                releaseName: "{{.name}}"
+                valueFiles:
+                  - "$values/{{.path.path}}/values.yaml"
+            - repoURL: https://github.com/donghun0508/codecrew-gitops
+              targetRevision: main
+              ref: values
+              path: "."
+            - repoURL: https://github.com/donghun0508/codecrew-gitops
+              targetRevision: main
+              path: "{{.path.path}}"
+              directory:
+                recurse: true
+                exclude: "values.yaml"
+          ignoreDifferences:
+            - group: apps
+              kind: StatefulSet
+              jsonPointers:
+                - /spec/volumeClaimTemplates
+            - group: apps
+              kind: StatefulSet
+              jqPathExpressions:
+                - .spec.template.metadata.annotations
+            - group: ""
+              kind: PersistentVolumeClaim
+              jqPathExpressions:
+                - .spec.volumeName
+            - group: ""
+              kind: Service
+              jqPathExpressions:
+                - .spec.clusterIP
+                - .spec.clusterIPs
+          syncPolicy:
+            automated:
+              prune: true
+              selfHeal: true
+            syncOptions:
+              - CreateNamespace=true
+              - ServerSideApply=true
 
-    - metadata:
-        name: "infra-{{name}}-{{path.basename}}"
+    # Helm chart 없는(순수 매니페스트) 케이스
+    - git:
+        repoURL: https://github.com/donghun0508/codecrew-gitops
+        revision: main
+        files:
+          - path: "infrastructure/*/envs/*/app.yaml"
       selector:
         matchExpressions:
           - key: chart
             operator: DoesNotExist
-      spec:
-        project: default
-        destination:
-          server: https://kubernetes.default.svc
-          namespace: "{{namespace}}"
-        sources:
-          - repoURL: https://github.com/donghun0508/codecrew-gitops
-            targetRevision: main
-            path: "{{path | dir}}"
-            directory:
-              recurse: true
-              # No exclusions needed for raw manifests usually, but keep clean
-              exclude: "app.yaml,values.yaml"
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
-            - ServerSideApply=true
+      template:
+        metadata:
+          name: "infra-{{.name}}-{{.path.basename}}"
+        spec:
+          project: default
+          destination:
+            server: https://kubernetes.default.svc
+            namespace: "{{.namespace}}"
+          sources:
+            - repoURL: https://github.com/donghun0508/codecrew-gitops
+              targetRevision: main
+              path: "{{.path.path}}"
+              directory:
+                recurse: true
+                exclude: "app.yaml,values.yaml"
+          syncPolicy:
+            automated:
+              prune: true
+              selfHeal: true
+            syncOptions:
+              - CreateNamespace=true
+              - ServerSideApply=true

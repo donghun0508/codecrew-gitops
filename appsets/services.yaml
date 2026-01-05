@@ -9,7 +9,8 @@ spec:
         repoURL: https://github.com/donghun0508/codecrew-gitops
         revision: main
         directories:
-          - path: services/*/envs/*
+          - path: "services/*/envs/*"
+
   template:
     metadata:
       name: "{{path.segments[1]}}-{{path.segments[3]}}"
@@ -22,20 +23,19 @@ spec:
       sources:
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
-          path: charts/service-helm
+          path: "charts/service-helm"
           helm:
             releaseName: "{{path.segments[1]}}"
             valueFiles:
-              - $values/{{path}}/values.yaml
+              - "$values/{{path}}/values.yaml"
 
         - repoURL: https://github.com/donghun0508/codecrew-gitops
           targetRevision: main
           ref: values
-          path: {{path}}
+          path: "{{path}}"
           directory:
             recurse: true
             include: "{configmap.yaml,sealedsecret.yaml,sealedsecret-*.yaml}"
-            # exclude values.yaml as it is used in the helm source above
             exclude: "{values.yaml,secret.yaml}"
 
       syncPolicy:
