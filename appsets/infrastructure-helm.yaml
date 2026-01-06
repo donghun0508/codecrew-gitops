@@ -8,6 +8,7 @@ spec:
   goTemplateOptions: ["missingkey=error"]
 
   generators:
+    # Helm chart 있는 케이스
     - git:
         repoURL: https://github.com/donghun0508/codecrew-gitops
         revision: main
@@ -45,6 +46,7 @@ spec:
             recurse: true
             exclude: "values.yaml"
       ignoreDifferences:
+        # 공통 설정 (모든 infrastructure 앱에 적용)
         - group: apps
           kind: StatefulSet
           jsonPointers:
