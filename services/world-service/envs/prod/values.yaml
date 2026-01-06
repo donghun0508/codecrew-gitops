@@ -28,9 +28,14 @@ image:
   pullPolicy: IfNotPresent
 
 resources:
+resources:
   requests:
-    memory: "64Mi"
-    cpu: "20m"
+    memory: "512Mi"
+    cpu: "250m"
   limits:
-    memory: "128Mi"
-    cpu: "100m"
+    memory: "1024Mi"
+    cpu: "1000m"
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: prod
