@@ -1,5 +1,12 @@
 fullnameOverride: world-master-service-prod
 
+serviceAccount:
+  create: true
+
+agones:
+  allocator:
+    enabled: true
+
 replicaCount: 1
 
 image:
