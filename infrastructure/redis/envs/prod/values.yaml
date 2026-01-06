@@ -48,14 +48,14 @@ replica:
     ports:
       redis: 6379
     nodePorts:
-      redis: 30380
+      redis: "30380"
 
 service:
   type: NodePort
   ports:
     redis: 6379
   nodePorts:
-    redis: 30379
+    redis: "30379"
 
 resources:
   requests:
