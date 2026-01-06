@@ -7,15 +7,16 @@ prometheusOperator:
     enabled: false
   resources:
     requests:
-      memory: 128Mi
-      cpu: 100m
+      memory: 64Mi
+      cpu: 50m
     limits:
-      memory: 256Mi
+      memory: 128Mi
 
 alertmanager:
   enabled: false
 
 grafana:
+  enabled: false # Disable Grafana as user said monitoring is not important
   adminUser: admin
   adminPassword: "admin"
   service:
@@ -30,38 +31,33 @@ grafana:
     pathType: Prefix
   resources:
     requests:
-      cpu: 100m
-      memory: 512Mi
+      cpu: 50m
+      memory: 64Mi
     limits:
-      cpu: 500m
-      memory: 1Gi
+      cpu: 100m
+      memory: 128Mi
   sidecar:
     dashboards:
       enabled: false
     datasources:
       enabled: true
       defaultDatasourceEnabled: true
-  dashboardProviders: {}   # providers 파일 자체를 안 만들게
+  dashboardProviders: {}
 
 prometheus:
+  enabled: false # Disable Prometheus core as well to save maximum resources
   prometheusSpec:
-    retention: 6h
+    retention: 2h
     resources:
       requests:
-        cpu: 100m
-        memory: 512Mi
+        cpu: 50m
+        memory: 128Mi
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 200m
+        memory: 256Mi
 
 kube-state-metrics:
-  resources:
-    requests:
-      cpu: 20m
-      memory: 64Mi
+  enabled: false
 
 prometheus-node-exporter:
-  resources:
-    requests:
-      cpu: 10m
-      memory: 32Mi
+  enabled: false

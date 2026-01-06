@@ -1,5 +1,16 @@
 fullnameOverride: world-master-service-prod
 
+deployment:
+  enabled: true
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
 replicaCount: 1
 
 image:
@@ -23,6 +34,8 @@ ingress:
 env:
   - name: SPRING_PROFILES_ACTIVE
     value: prod
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:MaxRAMPercentage=75.0 -XX:InitialRAMPercentage=50.0"
 
 monitoring:
   enabled: true
