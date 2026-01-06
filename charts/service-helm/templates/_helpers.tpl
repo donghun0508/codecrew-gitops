@@ -17,7 +17,7 @@ app.kubernetes.io/name: {{ include "service-helm.fullname" . }}
 {{- end -}}
 
 {{- define "service-helm.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
+{{- if and .Values.serviceAccount .Values.serviceAccount.create -}}
     {{- default (include "service-helm.fullname" .) .Values.serviceAccount.name -}}
 {{- else -}}
     {{- default "default" .Values.serviceAccount.name -}}
