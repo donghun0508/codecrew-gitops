@@ -64,30 +64,25 @@ spec:
             - .spec.clusterIP
             - .spec.clusterIPs
             - .spec.ports[].nodePort
-        # Agones Ignore Rules
-        - group: ""
-          kind: Secret
-          name: agones-cert
+        {{- range .ignoreDifferences }}
+        - group: "{{ .group }}"
+          kind: "{{ .kind }}"
+          {{- if .name }}
+          name: "{{ .name }}"
+          {{- end }}
+          {{- if .jsonPointers }}
           jsonPointers:
-            - /data
-        - group: ""
-          kind: Secret
-          name: allocator-tls
-          jsonPointers:
-            - /data
-        - group: ""
-          kind: Secret
-          name: allocator-client-ca
-          jsonPointers:
-            - /data
-        - group: admissionregistration.k8s.io
-          kind: MutatingWebhookConfiguration
+          {{- range .jsonPointers }}
+            - "{{ . }}"
+          {{- end }}
+          {{- end }}
+          {{- if .jqPathExpressions }}
           jqPathExpressions:
-            - .webhooks[].clientConfig.caBundle
-        - group: admissionregistration.k8s.io
-          kind: ValidatingWebhookConfiguration
-          jqPathExpressions:
-            - .webhooks[].clientConfig.caBundle
+          {{- range .jqPathExpressions }}
+            - "{{ . }}"
+          {{- end }}
+          {{- end }}
+        {{- end }}
       syncPolicy:
         automated:
           prune: true
