@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/donghun0508/world-master-service
-  tag: 889601e26b701f777d12ca32492c7ce499c73e1c
+  tag: 1da17ab35df2996edd491ea89834f0b4b9f3da80
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
