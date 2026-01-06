@@ -1,6 +1,9 @@
 agones:
   allocator:
     install: true
+    service:
+      http:
+        responsePort: 8080
     serviceMetrics:
       http:
         enabled: true
