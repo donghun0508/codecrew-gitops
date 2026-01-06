@@ -45,7 +45,9 @@ spec:
           directory:
             recurse: true
             exclude: "values.yaml"
+{{- if .ignoreDifferences }}
       ignoreDifferences:
+        # 공통 설정 (모든 infrastructure 앱에 적용)
         - group: apps
           kind: StatefulSet
           jsonPointers:
@@ -64,30 +66,30 @@ spec:
             - .spec.clusterIP
             - .spec.clusterIPs
             - .spec.ports[].nodePort
-        # Agones Ignore Rules
-        - group: ""
-          kind: Secret
-          name: agones-cert
+        # app.yaml에 정의된 앱별 설정
+{{ toYaml .ignoreDifferences | indent 8 }}
+{{- else }}
+      ignoreDifferences:
+        # 공통 설정만
+        - group: apps
+          kind: StatefulSet
           jsonPointers:
-            - /data
-        - group: ""
-          kind: Secret
-          name: allocator-tls
-          jsonPointers:
-            - /data
-        - group: ""
-          kind: Secret
-          name: allocator-client-ca
-          jsonPointers:
-            - /data
-        - group: admissionregistration.k8s.io
-          kind: MutatingWebhookConfiguration
+            - /spec/volumeClaimTemplates
+        - group: apps
+          kind: StatefulSet
           jqPathExpressions:
-            - .webhooks[].clientConfig.caBundle
-        - group: admissionregistration.k8s.io
-          kind: ValidatingWebhookConfiguration
+            - .spec.template.metadata.annotations
+        - group: ""
+          kind: PersistentVolumeClaim
           jqPathExpressions:
-            - .webhooks[].clientConfig.caBundle
+            - .spec.volumeName
+        - group: ""
+          kind: Service
+          jqPathExpressions:
+            - .spec.clusterIP
+            - .spec.clusterIPs
+            - .spec.ports[].nodePort
+{{- end }}
       syncPolicy:
         automated:
           prune: true
