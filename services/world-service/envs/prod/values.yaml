@@ -20,7 +20,7 @@ agones:
       failureThreshold: 3
     annotations:
       octops.io/gameserver-ingress-mode: "domain"
-      octops.io/gameserver-ingress-domain: "game.codecrew.site"
+      octops.io/gameserver-ingress-domain: "world.codecrew.site"
       octops.io/terminate-tls: "false"
 
 imagePullSecrets:
