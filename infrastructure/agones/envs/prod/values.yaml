@@ -11,12 +11,11 @@ agones:
       periodSeconds: 3
       failureThreshold: 3
     service:
-      http:
-        responsePort: 8080
+      serviceType: ClusterIP
     serviceMetrics:
       http:
         enabled: true
         port: 8080
         portName: http
   ping:
-    install: true
+    install: false
