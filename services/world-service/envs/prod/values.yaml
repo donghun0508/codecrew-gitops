@@ -4,7 +4,7 @@ deployment:
   enabled: false
 
 agones:
-  enabled: true
+  enabled: false  # USER REQUEST: TEMPORARILY DISABLED
   fleet:
     replicas: 2
     scheduling: Packed
