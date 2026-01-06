@@ -6,7 +6,7 @@ deployment:
 agones:
   enabled: true
   fleet:
-    replicas: 2
+    replicas: 0
     scheduling: Packed
     strategy:
       type: RollingUpdate
