@@ -28,10 +28,12 @@ spec:
     spec:
       ports:
         {{- toYaml .Values.agones.fleet.ports | nindent 8 }}
+      {{- if .Values.agones.fleet.health.enabled }}
       health:
         initialDelaySeconds: {{ .Values.agones.fleet.health.initialDelaySeconds | default 60 }}
         periodSeconds: {{ .Values.agones.fleet.health.periodSeconds | default 5 }}
         failureThreshold: {{ .Values.agones.fleet.health.failureThreshold | default 3 }}
+      {{- end }}
       template:
         spec:
           {{- if .Values.imagePullSecrets }}
