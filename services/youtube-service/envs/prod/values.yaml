@@ -15,7 +15,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/donghun0508/youtube-service
-  tag: aa63817c81d53850a1dae792038cdf82883c7cc5
+  tag: 1da17ab35df2996edd491ea89834f0b4b9f3da80
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
