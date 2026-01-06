@@ -15,9 +15,8 @@ agones:
         portPolicy: Dynamic
         containerPort: 7654
     health:
-      disabled: true
-      initialDelaySeconds: 60
-      periodSeconds: 5
+      initialDelaySeconds: 120
+      periodSeconds: 8
       failureThreshold: 3
     annotations:
       octops.io/gameserver-ingress-mode: "domain"
