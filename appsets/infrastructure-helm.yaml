@@ -66,29 +66,8 @@ spec:
             - .spec.clusterIPs
             - .spec.ports[].nodePort
 {{- if .ignoreDifferences }}
-        # app.yaml에 정의된 앱별 설정 병합
-{{- range .ignoreDifferences }}
-        - group: "{{ .group }}"
-          kind: "{{ .kind }}"
-{{- if .name }}
-          name: "{{ .name }}"
-{{- end }}
-{{- if .namespace }}
-          namespace: "{{ .namespace }}"
-{{- end }}
-{{- if .jsonPointers }}
-          jsonPointers:
-{{- range .jsonPointers }}
-            - {{ . }}
-{{- end }}
-{{- end }}
-{{- if .jqPathExpressions }}
-          jqPathExpressions:
-{{- range .jqPathExpressions }}
-            - {{ . }}
-{{- end }}
-{{- end }}
-{{- end }}
+        # app.yaml에 정의된 앱별 설정
+{{ toYaml .ignoreDifferences | indent 8 }}
 {{- end }}
       syncPolicy:
         automated:

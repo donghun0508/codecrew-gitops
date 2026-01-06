@@ -16,7 +16,17 @@ ignoreDifferences:
       - /data
   - group: ""
     kind: Secret
+    name: allocator-tls-ca
+    jsonPointers:
+      - /data
+  - group: ""
+    kind: Secret
     name: allocator-client-ca
+    jsonPointers:
+      - /data
+  - group: ""
+    kind: Secret
+    name: allocator-client.default
     jsonPointers:
       - /data
   - group: admissionregistration.k8s.io
@@ -27,9 +37,8 @@ ignoreDifferences:
     kind: ValidatingWebhookConfiguration
     jqPathExpressions:
       - .webhooks[].clientConfig.caBundle
-  - group: ""
-    kind: Service
+  - group: apiregistration.k8s.io
+    kind: APIService
+    name: v1.allocation.agones.dev
     jqPathExpressions:
-      - .spec.clusterIP
-      - .spec.clusterIPs
-      - .spec.ports[].nodePort
+      - .spec.caBundle
