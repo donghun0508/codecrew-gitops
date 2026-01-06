@@ -8,7 +8,6 @@ spec:
   goTemplateOptions: ["missingkey=error"]
 
   generators:
-    # Helm chart 있는 케이스
     - git:
         repoURL: https://github.com/donghun0508/codecrew-gitops
         revision: main
@@ -45,8 +44,8 @@ spec:
           directory:
             recurse: true
             exclude: "values.yaml"
+
       ignoreDifferences:
-        # 공통 설정 (모든 infrastructure 앱에 적용)
         - group: apps
           kind: StatefulSet
           jsonPointers:
@@ -65,14 +64,10 @@ spec:
             - .spec.clusterIP
             - .spec.clusterIPs
             - .spec.ports[].nodePort
-{{- if .ignoreDifferences }}
-        # app.yaml에 정의된 앱별 설정
-{{ toYaml .ignoreDifferences | indent 8 }}
-{{- end }}
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-          - ServerSideApply=true
+
+  templatePatch: |
+    {{- if .ignoreDifferences }}
+    spec:
+      ignoreDifferences:
+    {{ toYaml .ignoreDifferences | nindent 4 }}
+    {{- end }}
