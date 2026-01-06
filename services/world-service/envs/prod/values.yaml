@@ -23,8 +23,9 @@ imagePullSecrets:
   - name: ghcr-secret
 
 image:
-  repository: "ghcr.io/donghun0508/world-server"
+  repository: "ghcr.io/donghun0508/world-service"
   tag: "latest"
+  pullPolicy: IfNotPresent
 
 resources:
   requests:
