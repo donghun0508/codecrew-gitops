@@ -60,6 +60,7 @@ spec:
             - .spec.volumeName
         - group: ""
           kind: Service
+          jqPathExpressions:
             - .spec.clusterIP
             - .spec.clusterIPs
             - .spec.ports[].nodePort
