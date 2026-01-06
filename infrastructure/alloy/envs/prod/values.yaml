@@ -56,11 +56,7 @@ alloy:
       loki.process "spring_labels" {
         forward_to = [loki.write.grafana_loki.receiver]
 
-        stage.static_labels {
-          values = {
-            "env" = "prod"
-          }
-        }
+
 
         stage.multiline {
           firstline     = "^(?:\\[\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2})"
