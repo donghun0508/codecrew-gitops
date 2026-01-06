@@ -1,6 +1,22 @@
 replicaCount: 2
 revisionHistoryLimit: 2
 
+deployment:
+  enabled: true
+
+agones:
+  enabled: false
+  fleet:
+    replicas: 2
+    scheduling: Packed
+    strategy:
+      type: RollingUpdate
+    ports:
+      - name: default
+        portPolicy: Dynamic
+        containerPort: 7654
+    annotations: {}
+
 image:
   repository: ""   # services/<service>/prod.yaml 에서 필수로 채움
   tag: ""          # CI가 services/<service>/prod.yaml 에서 갱신

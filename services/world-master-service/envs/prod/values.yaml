@@ -11,6 +11,11 @@ imagePullSecrets:
   - name: ghcr-secret
 
 containerPort: 8080
+deployment:
+  enabled: true
+
+agones:
+  enabled: false
 
 service:
   type: ClusterIP
