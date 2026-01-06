@@ -25,6 +25,13 @@ master:
     - "--maxmemory"
     - "256mb"
 
+  service:
+    type: NodePort
+    ports:
+      redis: 6379
+    nodePorts:
+      redis: "30379"
+
 replica:
   replicaCount: 1
 
@@ -50,12 +57,7 @@ replica:
     nodePorts:
       redis: "30380"
 
-service:
-  type: NodePort
-  ports:
-    redis: 6379
-  nodePorts:
-    redis: "30379"
+
 
 resources:
   requests:
