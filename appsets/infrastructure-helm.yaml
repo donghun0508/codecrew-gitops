@@ -63,6 +63,30 @@ spec:
           jqPathExpressions:
             - .spec.clusterIP
             - .spec.clusterIPs
+        # Agones Ignore Rules
+        - group: ""
+          kind: Secret
+          name: agones-cert
+          jsonPointers:
+            - /data
+        - group: ""
+          kind: Secret
+          name: allocator-tls
+          jsonPointers:
+            - /data
+        - group: ""
+          kind: Secret
+          name: allocator-client-ca
+          jsonPointers:
+            - /data
+        - group: admissionregistration.k8s.io
+          kind: MutatingWebhookConfiguration
+          jqPathExpressions:
+            - .webhooks[].clientConfig.caBundle
+        - group: admissionregistration.k8s.io
+          kind: ValidatingWebhookConfiguration
+          jqPathExpressions:
+            - .webhooks[].clientConfig.caBundle
       syncPolicy:
         automated:
           prune: true
