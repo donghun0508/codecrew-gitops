@@ -36,7 +36,7 @@ spec:
           {{- end }}
           containers:
             - name: {{ include "service-helm.fullname" . }}
-              image: "{{ required \"image.repository is required\" .Values.image.repository }}:{{ required \"image.tag is required\" .Values.image.tag }}"
+              image: {{ required "image.repository is required" .Values.image.repository }}:{{ required "image.tag is required" .Values.image.tag }}
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               
               envFrom:
