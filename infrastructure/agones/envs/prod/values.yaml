@@ -1,5 +1,10 @@
 agones:
   allocator:
     install: true
+    serviceMetrics:
+      http:
+        enabled: true
+        port: 8080
+        portName: http
   ping:
     install: true
