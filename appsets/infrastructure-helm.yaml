@@ -44,7 +44,6 @@ spec:
           directory:
             recurse: true
             exclude: "values.yaml"
-
       ignoreDifferences:
         - group: apps
           kind: StatefulSet
@@ -64,10 +63,35 @@ spec:
             - .spec.clusterIP
             - .spec.clusterIPs
             - .spec.ports[].nodePort
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
 
   templatePatch: |
     {{- if .ignoreDifferences }}
     spec:
       ignoreDifferences:
+        - group: apps
+          kind: StatefulSet
+          jsonPointers:
+            - /spec/volumeClaimTemplates
+        - group: apps
+          kind: StatefulSet
+          jqPathExpressions:
+            - .spec.template.metadata.annotations
+        - group: ""
+          kind: PersistentVolumeClaim
+          jqPathExpressions:
+            - .spec.volumeName
+        - group: ""
+          kind: Service
+          jqPathExpressions:
+            - .spec.clusterIP
+            - .spec.clusterIPs
+            - .spec.ports[].nodePort
     {{ toYaml .ignoreDifferences | nindent 4 }}
     {{- end }}
