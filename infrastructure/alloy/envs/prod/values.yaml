@@ -58,7 +58,7 @@ alloy:
 
         stage.static_labels {
           values = {
-            env = "prod",
+            "env" = "prod"
           }
         }
 
