@@ -1,6 +1,15 @@
 agones:
   allocator:
     install: true
+    healthCheck:
+      initialDelaySeconds: 10
+      periodSeconds: 3
+      failureThreshold: 3
+      timeoutSeconds: 1
+    readiness:
+      initialDelaySeconds: 10
+      periodSeconds: 3
+      failureThreshold: 3
     service:
       http:
         responsePort: 8080
