@@ -2,8 +2,9 @@ alloy:
   configMap:
     content: |-
       /*
-        Log Collection Configuration (Adapted from yeong0jae.tistory.com/43)
-        Optimized for Kubernetes Sidecar/DaemonSet pattern
+        Unified Observability Configuration
+        - Logs: Collect & Push to Loki (Cluster)
+        - Metrics: Collect & Push to Remote Prometheus (MacBook)
       */
       
       logging {
@@ -11,70 +12,76 @@ alloy:
         format = "logfmt"
       }
 
-      // 1. Discover Pods (Kubernetes equivalent of discovering local files)
+      // ==========================================
+      // DISCOVERY (Metadata)
+      // ==========================================
       discovery.kubernetes "pods" {
         role = "pod"
       }
 
-      // 2. Discover Logs from Pods
+      // ==========================================
+      // LOGS PIPELINE
+      // ==========================================
       discovery.relabel "pod_logs" {
         targets = discovery.kubernetes.pods.targets
-        
-        // Extract metadata as labels
-        rule {
-          source_labels = ["__meta_kubernetes_namespace"]
-          action = "replace"
-          target_label = "namespace"
-        }
-        rule {
-          source_labels = ["__meta_kubernetes_pod_name"]
-          action = "replace"
-          target_label = "pod"
-        }
-        rule {
-          source_labels = ["__meta_kubernetes_pod_container_name"]
-          action = "replace"
-          target_label = "container"
-        }
-        rule {
-          source_labels = ["__meta_kubernetes_pod_label_app"]
-          action = "replace"
-          target_label = "app"  // Use 'app' label as service name equivalent
-        }
+        rule { source_labels = ["__meta_kubernetes_namespace"] ; action = "replace" ; target_label = "namespace" }
+        rule { source_labels = ["__meta_kubernetes_pod_name"] ; action = "replace" ; target_label = "pod" }
+        rule { source_labels = ["__meta_kubernetes_pod_container_name"] ; action = "replace" ; target_label = "container" }
+        rule { source_labels = ["__meta_kubernetes_pod_label_app"] ; action = "replace" ; target_label = "app" }
       }
 
-      // 3. Read Logs (Equivalent to loki.source.file)
       loki.source.kubernetes "cluster" {
         targets    = discovery.relabel.pod_logs.output
         forward_to = [loki.process.spring_labels.receiver]
       }
 
-      // 4. Process Logs (Multiline support from Blog)
       loki.process "spring_labels" {
         forward_to = [loki.write.grafana_loki.receiver]
-
-        stage.static_labels {
-            values = {
-              env = "prod", // In K8s, we can hardcode or infer this
-            }
-        }
-        
-        // Java Stacktrace Handling (Blog's core recommendation)
+        stage.static_labels { values = { env = "prod" } }
         stage.multiline {
-            firstline    = "^(?:\\[\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2})" // Common Spring date patterns
+            firstline    = "^(?:\\[\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2})"
             max_wait_time = "3s"
         }
       }
 
-      // 5. Send to Loki (Blog's Batch Settings)
       loki.write "grafana_loki" {
         endpoint {
           url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
-          tenant_id = "fake" // Single tenant mode
-          
-          // Tuned batch settings from blog
+          tenant_id = "fake"
           batch_wait = "1s"
           batch_size = "1MB"
+        }
+      }
+
+      // ==========================================
+      // METRICS PIPELINE (Added)
+      // ==========================================
+      
+      // Filter pods to standard Scraping ports/paths or annotations
+      discovery.relabel "pod_metrics" {
+        targets = discovery.kubernetes.pods.targets
+        
+        // Only scrape pods that have the annotation prometheus.io/scrape: true
+        // and mapped ports. For simplicity here, we assume standard pods.
+        // But to avoid noise, let's keep it simple: Scrape pods with 'app' label
+        
+        rule { source_labels = ["__meta_kubernetes_namespace"] ; action = "replace" ; target_label = "namespace" }
+        rule { source_labels = ["__meta_kubernetes_pod_name"] ; action = "replace" ; target_label = "pod" }
+        rule { source_labels = ["__meta_kubernetes_pod_label_app"] ; action = "replace" ; target_label = "app" }
+      }
+
+      prometheus.scrape "default_scraper" {
+        targets    = discovery.relabel.pod_metrics.output
+        forward_to = [prometheus.remote_write.macbook.receiver]
+        scrape_interval = "15s"
+        metrics_path    = "/actuator/prometheus" // Spring Boot default
+        // If some apps are not Spring Boot, this might fail for them, but user focuses on Java apps
+      }
+
+      prometheus.remote_write "macbook" {
+        endpoint {
+          // USER IP: 192.168.0.77
+          url = "http://192.168.0.77:9090/api/v1/write" 
         }
       }
 
@@ -83,8 +90,8 @@ controller:
 
 resources:
   requests:
-    cpu: 10m
+    cpu: 20m
     memory: 128Mi
   limits:
-    cpu: 100m
-    memory: 256Mi
+    cpu: 200m
+    memory: 512Mi
