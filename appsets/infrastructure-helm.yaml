@@ -60,9 +60,9 @@ spec:
             - .spec.volumeName
         - group: ""
           kind: Service
-          jqPathExpressions:
             - .spec.clusterIP
             - .spec.clusterIPs
+            - .spec.ports[].nodePort
         # Agones Ignore Rules
         - group: ""
           kind: Secret
