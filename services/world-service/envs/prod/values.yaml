@@ -3,6 +3,14 @@ fullnameOverride: world-service-prod
 deployment:
   enabled: false
 
+ingress:
+  middleware:
+    enabled: true
+
+ingress:
+  middleware:
+    enabled: true
+
 agones:
   enabled: true
   fleet:
@@ -22,7 +30,10 @@ agones:
     annotations:
       octops.io/gameserver-ingress-mode: "path"
       octops.io/gameserver-ingress-domain: "world.codecrew.site"
+      octops.io/gameserver-ingress-fqdn: "world.codecrew.site"
       octops.io/terminate-tls: "false"
+      octops.io/ingress-annotations: '{"traefik.ingress.kubernetes.io/router.middlewares": "world-service-prod-world-service-prod-strip-prefix@kubernetescrd"}'
+      octops.io/ingress-annotations: '{"traefik.ingress.kubernetes.io/router.middlewares": "world-service-prod-world-service-prod-strip-prefix@kubernetescrd"}'
 
 imagePullSecrets:
   - name: ghcr-secret
