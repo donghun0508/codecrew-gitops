@@ -44,9 +44,11 @@ replica:
     - "256mb"
 
 service:
-  type: ClusterIP
+  type: NodePort
   ports:
     redis: 6379
+  nodePorts:
+    redis: 30379
 
 resources:
   requests:
