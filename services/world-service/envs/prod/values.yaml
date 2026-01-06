@@ -19,7 +19,7 @@ agones:
       periodSeconds: 8
       failureThreshold: 3
     annotations:
-      octops.io/gameserver-ingress-mode: "domain"
+      octops.io/gameserver-ingress-mode: "path"
       octops.io/gameserver-ingress-domain: "world.codecrew.site"
       octops.io/terminate-tls: "false"
 
