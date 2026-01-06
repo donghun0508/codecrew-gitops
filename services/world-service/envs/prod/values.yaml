@@ -13,7 +13,8 @@ agones:
     ports:
       - name: default
         portPolicy: Dynamic
-        containerPort: 7654
+        containerPort: 9090
+        protocol: TCP
     health:
       initialDelaySeconds: 120
       periodSeconds: 8
