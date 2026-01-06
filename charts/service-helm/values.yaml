@@ -46,3 +46,13 @@ configmap:
 sealedSecret:
   enabled: false
   encryptedData: {}
+
+agones:
+  enabled: false
+  fleet:
+    replicas: 1
+    scheduling: Packed
+    strategy:
+      type: RollingUpdate
+    ports: []
+    annotations: {}
