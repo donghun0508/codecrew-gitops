@@ -27,3 +27,9 @@ ignoreDifferences:
     kind: ValidatingWebhookConfiguration
     jqPathExpressions:
       - .webhooks[].clientConfig.caBundle
+  - group: ""
+    kind: Service
+    jqPathExpressions:
+      - .spec.clusterIP
+      - .spec.clusterIPs
+      - .spec.ports[].nodePort
