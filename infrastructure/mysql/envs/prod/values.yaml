@@ -12,6 +12,9 @@ volumePermissions:
     repository: bitnamilegacy/os-shell
     tag: 12-debian-12-r50
 
+metrics:
+  enabled: false
+
 auth:
   enabled: true
   existingSecret: mysql-auth

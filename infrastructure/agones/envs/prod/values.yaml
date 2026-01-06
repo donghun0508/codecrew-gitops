@@ -1,5 +1,6 @@
 agones:
   allocator:
+    replicas: 1
     install: true
     healthCheck:
       initialDelaySeconds: 10
@@ -17,5 +18,9 @@ agones:
         enabled: true
         port: 8080
         portName: http
+  controller:
+    replicas: 1
+  extensions:
+    replicas: 1
   ping:
     install: false

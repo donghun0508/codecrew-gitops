@@ -5,6 +5,9 @@ auth:
   existingSecret: redis-auth
   existingSecretPasswordKey: redis-password
 
+metrics:
+  enabled: false
+
 
 master:
   replicaCount: 1
