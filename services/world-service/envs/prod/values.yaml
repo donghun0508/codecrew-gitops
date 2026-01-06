@@ -43,3 +43,5 @@ resources:
 env:
   - name: SPRING_PROFILES_ACTIVE
     value: prod
+  - name: SERVER_PORT
+    value: "9090"
