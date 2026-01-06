@@ -27,6 +27,11 @@ spec:
           containers:
             - name: world-server
               image: ghcr.io/donghun0508/world-server:latest
+              envFrom:
+                - secretRef:
+                    name: world-server-secret
+                - configMapRef:
+                    name: world-master-service-prod
               imagePullPolicy: Always
               resources:
                 requests:

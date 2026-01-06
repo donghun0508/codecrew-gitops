@@ -3,4 +3,6 @@
 *.pem
 **/secret.yaml
 scripts/
+!scripts/seal-manual.sh
 .secrets/
+services/world-service/
