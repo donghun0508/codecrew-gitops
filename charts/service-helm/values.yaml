@@ -1,3 +1,6 @@
+deployment:
+  enabled: true
+
 replicaCount: 2
 revisionHistoryLimit: 2
 
