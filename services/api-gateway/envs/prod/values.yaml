@@ -25,18 +25,15 @@ ingress:
 
 resources:
   requests:
-  requests:
-    cpu: 100m
-    memory: 256Mi
-  limits:
-    cpu: 500m
+    cpu: 200m
     memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
 
 env:
   - name: SPRING_PROFILES_ACTIVE
     value: prod
-  - name: JAVA_TOOL_OPTIONS
-    value: "-XX:MaxRAMPercentage=75.0 -XX:InitialRAMPercentage=50.0"
 
 monitoring:
   enabled: true

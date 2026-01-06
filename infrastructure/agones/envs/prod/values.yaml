@@ -1,31 +1,5 @@
 agones:
-  controller:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 100m
-        memory: 64Mi
-      limits:
-        cpu: 500m
-        memory: 128Mi
-  extensions:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 50m
-        memory: 32Mi
-      limits:
-        cpu: 200m
-        memory: 64Mi
   allocator:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 50m
-        memory: 64Mi
-      limits:
-        cpu: 200m
-        memory: 128Mi
     install: true
     healthCheck:
       initialDelaySeconds: 10

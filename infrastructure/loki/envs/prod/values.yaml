@@ -1,7 +1,6 @@
 deploymentMode: SingleBinary
 
 loki:
-  enabled: false
   auth_enabled: false
   commonConfig:
     replication_factor: 1
@@ -12,7 +11,7 @@ loki:
   useTestSchema: true
 
 singleBinary:
-  replicas: 0
+  replicas: 1
   affinity: {}
   resources:
     requests:
