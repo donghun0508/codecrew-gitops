@@ -1,0 +1,5 @@
+name: grafana
+chart: grafana
+repo: https://grafana.github.io/helm-charts
+version: "8.5.1"
+namespace: monitoring

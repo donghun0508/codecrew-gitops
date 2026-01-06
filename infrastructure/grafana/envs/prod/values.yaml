@@ -1,0 +1,39 @@
+adminUser: admin
+adminPassword: "admin"
+
+service:
+  type: NodePort
+  nodePort: 31000
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  hosts:
+    - grafana.codecrew.site
+  path: /
+
+persistence:
+  enabled: false  # Minimal I/O (Ephemeral)
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Loki
+      type: loki
+      url: http://loki-gateway.loki.svc.cluster.local
+      access: proxy
+      isDefault: true
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
