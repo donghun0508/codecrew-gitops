@@ -46,6 +46,7 @@ spec:
             recurse: true
             exclude: "values.yaml"
       ignoreDifferences:
+        # 공통 설정 (모든 infrastructure 앱에 적용)
         - group: apps
           kind: StatefulSet
           jsonPointers:
@@ -64,27 +65,35 @@ spec:
             - .spec.clusterIP
             - .spec.clusterIPs
             - .spec.ports[].nodePort
-        # Agones Ignore Rules
-        - group: ""
-          kind: Secret
-          name: agones-cert
+{{- if .ignoreDifferences }}
+        # app.yaml에 정의된 앱별 설정 병합
+{{- range .ignoreDifferences }}
+        - group: "{{ .group }}"
+          kind: "{{ .kind }}"
+{{- if .name }}
+          name: "{{ .name }}"
+{{- end }}
+{{- if .namespace }}
+          namespace: "{{ .namespace }}"
+{{- end }}
+{{- if .jsonPointers }}
           jsonPointers:
-            - /data
-        - group: ""
-          kind: Secret
-          name: allocator-tls
-          jsonPointers:
-            - /data
-        - group: ""
-          kind: Secret
-          name: allocator-client-ca
-          jsonPointers:
-            - /data
-        - group: admissionregistration.k8s.io
-          kind: MutatingWebhookConfiguration
+{{- range .jsonPointers }}
+            - {{ . }}
+{{- end }}
+{{- end }}
+{{- if .jqPathExpressions }}
           jqPathExpressions:
-            - .webhooks[].clientConfig.caBundle
-        - group: admissionregistration.k8s.io
-          kind: ValidatingWebhookConfiguration
-          jqPathExpressions:
-            - .webhooks[].clientConfig.caBundle
+{{- range .jqPathExpressions }}
+            - {{ . }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
