@@ -1,0 +1,90 @@
+alloy:
+  configMap:
+    content: |-
+      /*
+        Log Collection Configuration (Adapted from yeong0jae.tistory.com/43)
+        Optimized for Kubernetes Sidecar/DaemonSet pattern
+      */
+      
+      logging {
+        level  = "info"
+        format = "logfmt"
+      }
+
+      // 1. Discover Pods (Kubernetes equivalent of discovering local files)
+      discovery.kubernetes "pods" {
+        role = "pod"
+      }
+
+      // 2. Discover Logs from Pods
+      discovery.relabel "pod_logs" {
+        targets = discovery.kubernetes.pods.targets
+        
+        // Extract metadata as labels
+        rule {
+          source_labels = ["__meta_kubernetes_namespace"]
+          action = "replace"
+          target_label = "namespace"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_name"]
+          action = "replace"
+          target_label = "pod"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_name"]
+          action = "replace"
+          target_label = "container"
+        }
+        rule {
+          source_labels = ["__meta_kubernetes_pod_label_app"]
+          action = "replace"
+          target_label = "app"  // Use 'app' label as service name equivalent
+        }
+      }
+
+      // 3. Read Logs (Equivalent to loki.source.file)
+      loki.source.kubernetes "cluster" {
+        targets    = discovery.relabel.pod_logs.output
+        forward_to = [loki.process.spring_labels.receiver]
+      }
+
+      // 4. Process Logs (Multiline support from Blog)
+      loki.process "spring_labels" {
+        forward_to = [loki.write.grafana_loki.receiver]
+
+        stage.static_labels {
+            values = {
+              env = "prod", // In K8s, we can hardcode or infer this
+            }
+        }
+        
+        // Java Stacktrace Handling (Blog's core recommendation)
+        stage.multiline {
+            firstline    = "^(?:\\[\\d{4}-\\d{2}-\\d{2}|\\d{4}-\\d{2}-\\d{2})" // Common Spring date patterns
+            max_wait_time = "3s"
+        }
+      }
+
+      // 5. Send to Loki (Blog's Batch Settings)
+      loki.write "grafana_loki" {
+        endpoint {
+          url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
+          tenant_id = "fake" // Single tenant mode
+          
+          // Tuned batch settings from blog
+          batch_wait = "1s"
+          batch_size = "1MB"
+        }
+      }
+
+controller:
+  type: daemonset
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 256Mi

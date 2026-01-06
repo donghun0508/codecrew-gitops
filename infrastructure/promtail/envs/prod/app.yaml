@@ -1,5 +1,0 @@
-name: promtail
-chart: promtail
-repo: https://grafana.github.io/helm-charts
-version: "6.17.1"
-namespace: promtail
