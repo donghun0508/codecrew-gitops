@@ -1,5 +1,8 @@
 fullnameOverride: api-gateway-prod
 
+deployment:
+  enabled: true
+
 replicaCount: 1
 
 image:
