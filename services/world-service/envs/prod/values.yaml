@@ -30,7 +30,7 @@ agones:
       octops.io/gameserver-ingress-fqdn: "world.codecrew.site"
       octops.io/ingress-class-name: "traefik"
       octops.io/terminate-tls: "false"
-      octops-traefik.ingress.kubernetes.io/router.middlewares: "world-service-prod-strip-prefix@kubernetescrd"
+      octops-traefik.ingress.kubernetes.io/router.middlewares: "world-service-prod-world-service-prod-strip-prefix@kubernetescrd"
 
 
 imagePullSecrets:
