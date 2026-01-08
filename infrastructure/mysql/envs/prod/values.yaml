@@ -22,9 +22,7 @@ auth:
   username: codecrew
 
 primary:
-  configuration: |-
-    [mysqld]
-    default_time_zone = '+09:00'
+  extraFlags: "--default-time-zone=+09:00"
   persistence:
     enabled: true
     storageClass: nfs
@@ -32,6 +30,7 @@ primary:
 
   service:
     type: NodePort
+
     nodePorts:
       mysql: 30306
 
