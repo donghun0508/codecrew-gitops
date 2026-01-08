@@ -22,6 +22,9 @@ auth:
   username: codecrew
 
 primary:
+  configuration: |-
+    [mysqld]
+    default_time_zone = 'Asia/Seoul'
   persistence:
     enabled: true
     storageClass: nfs
