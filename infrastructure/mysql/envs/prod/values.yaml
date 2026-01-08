@@ -24,7 +24,7 @@ auth:
 primary:
   configuration: |-
     [mysqld]
-    default_time_zone = 'Asia/Seoul'
+    default_time_zone = '+09:00'
   persistence:
     enabled: true
     storageClass: nfs
