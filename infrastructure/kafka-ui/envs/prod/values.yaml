@@ -1,0 +1,20 @@
+yamlApplicationConfig:
+  kafka:
+    clusters:
+      - name: kafka-cluster
+        bootstrapServers: kafka-cluster-kafka-bootstrap.kafka-prod.svc.cluster.local:9092
+        kafkaConnect:
+          - name: kafka-connect
+            address: http://kafka-connect-connect-api.kafka-prod.svc.cluster.local:8083
+
+service:
+  type: NodePort
+  nodePort: 31080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
