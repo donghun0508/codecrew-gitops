@@ -1,6 +1,6 @@
 image:
   registry: docker.io
-  repository: bitnami/kafka
+  repository: bitnamilegacy/kafka
   tag: latest
 
 controller:
