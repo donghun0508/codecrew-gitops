@@ -1,5 +1,5 @@
 name: kafka
 chart: kafka
 repo: https://ricardo-aires.github.io/helm-charts/
-version: "0.2.3"
+version: "0.2.1"
 namespace: kafka
