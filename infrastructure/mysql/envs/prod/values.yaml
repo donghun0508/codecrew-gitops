@@ -41,10 +41,3 @@ resources:
   limits:
     cpu: 1000m
     memory: 1Gi
-
-initdbScripts:
-  create-debezium-user.sql: |
-    -- Debezium user for CDC
-    CREATE USER IF NOT EXISTS 'debezium'@'%' IDENTIFIED BY 'debezium007';
-    GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'debezium'@'%';
-    FLUSH PRIVILEGES;
