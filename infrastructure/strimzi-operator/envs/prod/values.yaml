@@ -6,12 +6,5 @@ resources:
     cpu: 500m
     memory: 512Mi
 
-livenessProbe:
-  initialDelaySeconds: 120
-  periodSeconds: 30
-  timeoutSeconds: 10
-
-readinessProbe:
-  initialDelaySeconds: 120
-  periodSeconds: 30
-  timeoutSeconds: 10
+livenessProbe: null
+readinessProbe: null
