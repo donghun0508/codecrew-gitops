@@ -1,5 +1,5 @@
 name: kafka
-chart: cp-helm-charts
-repo: https://confluentinc.github.io/cp-helm-charts/
-version: "0.6.1"
+chart: kafka
+repo: https://ricardo-aires.github.io/helm-charts/
+version: "0.2.3"
 namespace: kafka
