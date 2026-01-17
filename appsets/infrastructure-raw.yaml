@@ -34,6 +34,13 @@ spec:
           directory:
             recurse: true
             exclude: "app.yaml,values.yaml"
+      ignoreDifferences:
+        - group: apps
+          kind: StatefulSet
+          jqPathExpressions:
+            - .spec.volumeClaimTemplates[]?.spec.volumeName
+            - .spec.volumeClaimTemplates[]?.status
+            - .status
       syncPolicy:
         automated:
           prune: true
