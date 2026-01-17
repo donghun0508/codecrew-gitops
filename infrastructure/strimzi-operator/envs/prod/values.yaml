@@ -1,6 +1,3 @@
-watchNamespaces:
-  - kafka-prod
-
 resources:
   requests:
     cpu: 100m
