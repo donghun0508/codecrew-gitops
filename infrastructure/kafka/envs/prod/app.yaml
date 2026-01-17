@@ -1,0 +1,5 @@
+name: kafka
+chart: kafka
+repo: https://charts.bitnami.com/bitnami
+version: "32.4.3"
+namespace: kafka
