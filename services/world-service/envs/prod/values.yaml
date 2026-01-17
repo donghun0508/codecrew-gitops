@@ -43,11 +43,11 @@ image:
 
 resources:
   requests:
-    memory: "512Mi"
-    cpu: "250m"
+    memory: "256Mi"
+    cpu: "100m"
   limits:
-    memory: "1024Mi"
-    cpu: "1000m"
+    memory: "512Mi"
+    cpu: "500m"
 
 env:
   - name: SPRING_PROFILES_ACTIVE

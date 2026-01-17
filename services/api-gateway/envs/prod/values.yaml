@@ -25,11 +25,11 @@ ingress:
 
 resources:
   requests:
-    cpu: 200m
-    memory: 512Mi
+    cpu: 100m
+    memory: 256Mi
   limits:
-    cpu: 1000m
-    memory: 1024Mi
+    cpu: 500m
+    memory: 512Mi
 
 env:
   - name: SPRING_PROFILES_ACTIVE

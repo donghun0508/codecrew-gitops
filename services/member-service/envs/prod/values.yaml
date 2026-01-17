@@ -20,6 +20,14 @@ service:
 ingress:
   enabled: false
 
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
 env:
   - name: SPRING_PROFILES_ACTIVE
     value: prod
