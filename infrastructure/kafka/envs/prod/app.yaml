@@ -1,5 +1,5 @@
 name: kafka
-chart: kafka
-repo: https://charts.bitnami.com/bitnami
-version: "31.3.1"
+chart: cp-kafka
+repo: https://confluentinc.github.io/cp-helm-charts/
+version: "0.6.1"
 namespace: kafka
