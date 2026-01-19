@@ -37,10 +37,8 @@ spec:
       ignoreDifferences:
         - group: apps
           kind: StatefulSet
-          jqPathExpressions:
-            - .spec.volumeClaimTemplates[]?.spec.volumeName
-            - .spec.volumeClaimTemplates[]?.status
-            - .status
+          jsonPointers:
+            - /spec/volumeClaimTemplates
       syncPolicy:
         automated:
           prune: true
