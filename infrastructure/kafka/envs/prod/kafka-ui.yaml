@@ -38,6 +38,10 @@ spec:
               value: "kafka-prod"
             - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
               value: "kafka-cluster-kafka-bootstrap.kafka-prod.svc.cluster.local:9092"
+            - name: KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME
+              value: "debezium"
+            - name: KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS
+              value: "http://debezium-connect:8083"
           resources:
             requests:
               cpu: 100m
