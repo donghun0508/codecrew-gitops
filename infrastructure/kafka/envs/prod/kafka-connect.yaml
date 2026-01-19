@@ -6,7 +6,7 @@ metadata:
   annotations:
     strimzi.io/use-connector-resources: "true"
 spec:
-  version: 3.8.0
+  version: 4.1.1
   replicas: 1
   bootstrapServers: kafka-cluster-kafka-bootstrap:9092
   config:
@@ -21,7 +21,6 @@ spec:
     value.converter: org.apache.kafka.connect.json.JsonConverter
     key.converter.schemas.enable: false
     value.converter.schemas.enable: false
-  image: quay.io/debezium/connect:2.7
   externalConfiguration:
     volumes:
       - name: debezium-mysql-credentials
