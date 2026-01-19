@@ -47,13 +47,15 @@ spec:
               memory: 512Mi
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 90
             periodSeconds: 30
+            failureThreshold: 10
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /
               port: 8080
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 10
+            failureThreshold: 10
