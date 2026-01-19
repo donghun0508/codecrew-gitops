@@ -21,7 +21,7 @@ agones:
         containerPort: 9090
         protocol: TCP
     health:
-      initialDelaySeconds: 120
+      initialDelaySeconds: 180
       periodSeconds: 8
       failureThreshold: 3
     annotations:
