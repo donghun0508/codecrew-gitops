@@ -1,5 +1,0 @@
-name: kafka-ui
-chart: kafka-ui
-repo: https://provectus.github.io/kafka-ui-charts
-version: "0.7.6"
-namespace: kafka-prod
