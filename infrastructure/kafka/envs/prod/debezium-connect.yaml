@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debezium-connect
+  namespace: kafka-prod
+  labels:
+    app: debezium-connect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debezium-connect
+  template:
+    metadata:
+      labels:
+        app: debezium-connect
+    spec:
+      containers:
+      - name: connect
+        image: quay.io/debezium/connect:2.7
+        ports:
+        - containerPort: 8083
+          name: rest-api
+        env:
+        - name: BOOTSTRAP_SERVERS
+          value: kafka-cluster-kafka-bootstrap:9092
+        - name: GROUP_ID
+          value: debezium-connect
+        - name: CONFIG_STORAGE_TOPIC
+          value: connect-configs
+        - name: OFFSET_STORAGE_TOPIC
+          value: connect-offsets
+        - name: STATUS_STORAGE_TOPIC
+          value: connect-status
+        - name: CONFIG_STORAGE_REPLICATION_FACTOR
+          value: "1"
+        - name: OFFSET_STORAGE_REPLICATION_FACTOR
+          value: "1"
+        - name: STATUS_STORAGE_REPLICATION_FACTOR
+          value: "1"
+        - name: KEY_CONVERTER
+          value: org.apache.kafka.connect.json.JsonConverter
+        - name: VALUE_CONVERTER
+          value: org.apache.kafka.connect.json.JsonConverter
+        - name: KEY_CONVERTER_SCHEMAS_ENABLE
+          value: "false"
+        - name: VALUE_CONVERTER_SCHEMAS_ENABLE
+          value: "false"
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8083
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /connectors
+            port: 8083
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        volumeMounts:
+        - name: mysql-credentials
+          mountPath: /debezium/mysql-credentials
+          readOnly: true
+      volumes:
+      - name: mysql-credentials
+        secret:
+          secretName: debezium-mysql-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: debezium-connect
+  namespace: kafka-prod
+spec:
+  selector:
+    app: debezium-connect
+  ports:
+  - port: 8083
+    targetPort: 8083
+    name: rest-api
