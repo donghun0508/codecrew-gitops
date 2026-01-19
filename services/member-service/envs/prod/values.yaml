@@ -4,7 +4,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/donghun0508/member-service
-  tag: acc4abd475b2a7e4cdeee352011add53420fb941
+  tag: ae690bda3f09c54bfd5c1a208094d5c50d534e5b
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
