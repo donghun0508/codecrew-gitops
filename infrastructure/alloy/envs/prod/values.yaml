@@ -80,6 +80,13 @@ alloy:
       discovery.relabel "pod_metrics" {
         targets = discovery.kubernetes.pods.targets
 
+        // Only scrape pods with prometheus.io/scrape=true annotation
+        rule {
+          source_labels = ["__meta_kubernetes_pod_annotation_prometheus_io_scrape"]
+          regex         = "true"
+          action        = "keep"
+        }
+
         rule {
           source_labels = ["__meta_kubernetes_namespace"]
           action        = "replace"
