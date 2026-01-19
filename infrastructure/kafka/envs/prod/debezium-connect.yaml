@@ -57,14 +57,18 @@ spec:
           httpGet:
             path: /
             port: 8083
-          initialDelaySeconds: 120
-          periodSeconds: 10
+          initialDelaySeconds: 180
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 10
         readinessProbe:
           httpGet:
-            path: /connectors
+            path: /
             port: 8083
-          initialDelaySeconds: 120
-          periodSeconds: 10
+          initialDelaySeconds: 180
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 10
         volumeMounts:
         - name: mysql-credentials
           mountPath: /debezium/mysql-credentials
