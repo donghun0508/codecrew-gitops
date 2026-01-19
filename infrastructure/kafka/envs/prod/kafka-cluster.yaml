@@ -66,3 +66,9 @@ spec:
         limits:
           cpu: 500m
           memory: 512Mi
+      livenessProbe:
+        initialDelaySeconds: 60
+        timeoutSeconds: 5
+      readinessProbe:
+        initialDelaySeconds: 60
+        timeoutSeconds: 5
