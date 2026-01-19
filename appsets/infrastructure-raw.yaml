@@ -22,6 +22,8 @@ spec:
   template:
     metadata:
       name: "infra-{{.name}}-{{index .path.segments 3}}"
+      annotations:
+        argocd.argoproj.io/sync-wave: "{{ or .syncWave "5" }}"
     spec:
       project: default
       destination:

@@ -3,3 +3,4 @@ chart: mysql
 repo: https://charts.bitnami.com/bitnami
 version: "14.0.3"
 namespace: mysql
+syncWave: "2"

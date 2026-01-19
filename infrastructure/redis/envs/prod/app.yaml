@@ -3,3 +3,4 @@ chart: redis
 repo: https://charts.bitnami.com/bitnami
 version: "24.1.0"
 namespace: redis
+syncWave: "3"
