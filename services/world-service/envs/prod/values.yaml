@@ -38,7 +38,7 @@ imagePullSecrets:
 
 image:
   repository: "ghcr.io/donghun0508/world-service"
-  tag: ae690bda3f09c54bfd5c1a208094d5c50d534e5b
+  tag: ed9bb3f6b05c440363b37cb35a58e194d37d1d76
   pullPolicy: IfNotPresent
 
 resources:
